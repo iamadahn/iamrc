@@ -1,0 +1,3 @@
+/home/adahn/stm32 porjects/f103_rc/build/CMakeFiles/f103_rc.elf.dir
+/home/adahn/stm32 porjects/f103_rc/build/CMakeFiles/edit_cache.dir
+/home/adahn/stm32 porjects/f103_rc/build/CMakeFiles/rebuild_cache.dir

@@ -1,0 +1,140 @@
+[
+{
+  "directory": "/home/adahn/stm32 porjects/f103_rc/build",
+  "command": "/usr/bin/arm-none-eabi-gcc -DSTM32F103xB -DUSE_FULL_LL_DRIVER -I\"/home/adahn/stm32 porjects/f103_rc/core/inc\" -I\"/home/adahn/stm32 porjects/f103_rc/drivers/cmsis/inc\" -I\"/home/adahn/stm32 porjects/f103_rc/drivers/ll/inc\" -g -std=gnu11 -mcpu=cortex-m3 -mthumb -mthumb-interwork -ffunction-sections -fdata-sections -fno-common -fmessage-length=0 -lc -lm -lnosys -specs=nano.specs -specs=nosys.specs -O0 -o CMakeFiles/f103_rc.elf.dir/core/src/error_handlers.c.obj -c \"/home/adahn/stm32 porjects/f103_rc/core/src/error_handlers.c\"",
+  "file": "/home/adahn/stm32 porjects/f103_rc/core/src/error_handlers.c",
+  "output": "CMakeFiles/f103_rc.elf.dir/core/src/error_handlers.c.obj"
+},
+{
+  "directory": "/home/adahn/stm32 porjects/f103_rc/build",
+  "command": "/usr/bin/arm-none-eabi-gcc -DSTM32F103xB -DUSE_FULL_LL_DRIVER -I\"/home/adahn/stm32 porjects/f103_rc/core/inc\" -I\"/home/adahn/stm32 porjects/f103_rc/drivers/cmsis/inc\" -I\"/home/adahn/stm32 porjects/f103_rc/drivers/ll/inc\" -g -std=gnu11 -mcpu=cortex-m3 -mthumb -mthumb-interwork -ffunction-sections -fdata-sections -fno-common -fmessage-length=0 -lc -lm -lnosys -specs=nano.specs -specs=nosys.specs -O0 -o CMakeFiles/f103_rc.elf.dir/core/src/main.c.obj -c \"/home/adahn/stm32 porjects/f103_rc/core/src/main.c\"",
+  "file": "/home/adahn/stm32 porjects/f103_rc/core/src/main.c",
+  "output": "CMakeFiles/f103_rc.elf.dir/core/src/main.c.obj"
+},
+{
+  "directory": "/home/adahn/stm32 porjects/f103_rc/build",
+  "command": "/usr/bin/arm-none-eabi-gcc -DSTM32F103xB -DUSE_FULL_LL_DRIVER -I\"/home/adahn/stm32 porjects/f103_rc/core/inc\" -I\"/home/adahn/stm32 porjects/f103_rc/drivers/cmsis/inc\" -I\"/home/adahn/stm32 porjects/f103_rc/drivers/ll/inc\" -g -std=gnu11 -mcpu=cortex-m3 -mthumb -mthumb-interwork -ffunction-sections -fdata-sections -fno-common -fmessage-length=0 -lc -lm -lnosys -specs=nano.specs -specs=nosys.specs -O0 -o CMakeFiles/f103_rc.elf.dir/core/src/rcc.c.obj -c \"/home/adahn/stm32 porjects/f103_rc/core/src/rcc.c\"",
+  "file": "/home/adahn/stm32 porjects/f103_rc/core/src/rcc.c",
+  "output": "CMakeFiles/f103_rc.elf.dir/core/src/rcc.c.obj"
+},
+{
+  "directory": "/home/adahn/stm32 porjects/f103_rc/build",
+  "command": "/usr/bin/arm-none-eabi-gcc -DSTM32F103xB -DUSE_FULL_LL_DRIVER -I\"/home/adahn/stm32 porjects/f103_rc/core/inc\" -I\"/home/adahn/stm32 porjects/f103_rc/drivers/cmsis/inc\" -I\"/home/adahn/stm32 porjects/f103_rc/drivers/ll/inc\" -g -std=gnu11 -mcpu=cortex-m3 -mthumb -mthumb-interwork -ffunction-sections -fdata-sections -fno-common -fmessage-length=0 -lc -lm -lnosys -specs=nano.specs -specs=nosys.specs -O0 -o CMakeFiles/f103_rc.elf.dir/drivers/cmsis/src/system_stm32f1xx.c.obj -c \"/home/adahn/stm32 porjects/f103_rc/drivers/cmsis/src/system_stm32f1xx.c\"",
+  "file": "/home/adahn/stm32 porjects/f103_rc/drivers/cmsis/src/system_stm32f1xx.c",
+  "output": "CMakeFiles/f103_rc.elf.dir/drivers/cmsis/src/system_stm32f1xx.c.obj"
+},
+{
+  "directory": "/home/adahn/stm32 porjects/f103_rc/build",
+  "command": "/usr/bin/arm-none-eabi-gcc -DSTM32F103xB -DUSE_FULL_LL_DRIVER -I\"/home/adahn/stm32 porjects/f103_rc/core/inc\" -I\"/home/adahn/stm32 porjects/f103_rc/drivers/cmsis/inc\" -I\"/home/adahn/stm32 porjects/f103_rc/drivers/ll/inc\" -g -std=gnu11 -mcpu=cortex-m3 -mthumb -mthumb-interwork -ffunction-sections -fdata-sections -fno-common -fmessage-length=0 -lc -lm -lnosys -specs=nano.specs -specs=nosys.specs -O0 -o CMakeFiles/f103_rc.elf.dir/drivers/ll/src/stm32f1xx_ll_adc.c.obj -c \"/home/adahn/stm32 porjects/f103_rc/drivers/ll/src/stm32f1xx_ll_adc.c\"",
+  "file": "/home/adahn/stm32 porjects/f103_rc/drivers/ll/src/stm32f1xx_ll_adc.c",
+  "output": "CMakeFiles/f103_rc.elf.dir/drivers/ll/src/stm32f1xx_ll_adc.c.obj"
+},
+{
+  "directory": "/home/adahn/stm32 porjects/f103_rc/build",
+  "command": "/usr/bin/arm-none-eabi-gcc -DSTM32F103xB -DUSE_FULL_LL_DRIVER -I\"/home/adahn/stm32 porjects/f103_rc/core/inc\" -I\"/home/adahn/stm32 porjects/f103_rc/drivers/cmsis/inc\" -I\"/home/adahn/stm32 porjects/f103_rc/drivers/ll/inc\" -g -std=gnu11 -mcpu=cortex-m3 -mthumb -mthumb-interwork -ffunction-sections -fdata-sections -fno-common -fmessage-length=0 -lc -lm -lnosys -specs=nano.specs -specs=nosys.specs -O0 -o CMakeFiles/f103_rc.elf.dir/drivers/ll/src/stm32f1xx_ll_crc.c.obj -c \"/home/adahn/stm32 porjects/f103_rc/drivers/ll/src/stm32f1xx_ll_crc.c\"",
+  "file": "/home/adahn/stm32 porjects/f103_rc/drivers/ll/src/stm32f1xx_ll_crc.c",
+  "output": "CMakeFiles/f103_rc.elf.dir/drivers/ll/src/stm32f1xx_ll_crc.c.obj"
+},
+{
+  "directory": "/home/adahn/stm32 porjects/f103_rc/build",
+  "command": "/usr/bin/arm-none-eabi-gcc -DSTM32F103xB -DUSE_FULL_LL_DRIVER -I\"/home/adahn/stm32 porjects/f103_rc/core/inc\" -I\"/home/adahn/stm32 porjects/f103_rc/drivers/cmsis/inc\" -I\"/home/adahn/stm32 porjects/f103_rc/drivers/ll/inc\" -g -std=gnu11 -mcpu=cortex-m3 -mthumb -mthumb-interwork -ffunction-sections -fdata-sections -fno-common -fmessage-length=0 -lc -lm -lnosys -specs=nano.specs -specs=nosys.specs -O0 -o CMakeFiles/f103_rc.elf.dir/drivers/ll/src/stm32f1xx_ll_dac.c.obj -c \"/home/adahn/stm32 porjects/f103_rc/drivers/ll/src/stm32f1xx_ll_dac.c\"",
+  "file": "/home/adahn/stm32 porjects/f103_rc/drivers/ll/src/stm32f1xx_ll_dac.c",
+  "output": "CMakeFiles/f103_rc.elf.dir/drivers/ll/src/stm32f1xx_ll_dac.c.obj"
+},
+{
+  "directory": "/home/adahn/stm32 porjects/f103_rc/build",
+  "command": "/usr/bin/arm-none-eabi-gcc -DSTM32F103xB -DUSE_FULL_LL_DRIVER -I\"/home/adahn/stm32 porjects/f103_rc/core/inc\" -I\"/home/adahn/stm32 porjects/f103_rc/drivers/cmsis/inc\" -I\"/home/adahn/stm32 porjects/f103_rc/drivers/ll/inc\" -g -std=gnu11 -mcpu=cortex-m3 -mthumb -mthumb-interwork -ffunction-sections -fdata-sections -fno-common -fmessage-length=0 -lc -lm -lnosys -specs=nano.specs -specs=nosys.specs -O0 -o CMakeFiles/f103_rc.elf.dir/drivers/ll/src/stm32f1xx_ll_dma.c.obj -c \"/home/adahn/stm32 porjects/f103_rc/drivers/ll/src/stm32f1xx_ll_dma.c\"",
+  "file": "/home/adahn/stm32 porjects/f103_rc/drivers/ll/src/stm32f1xx_ll_dma.c",
+  "output": "CMakeFiles/f103_rc.elf.dir/drivers/ll/src/stm32f1xx_ll_dma.c.obj"
+},
+{
+  "directory": "/home/adahn/stm32 porjects/f103_rc/build",
+  "command": "/usr/bin/arm-none-eabi-gcc -DSTM32F103xB -DUSE_FULL_LL_DRIVER -I\"/home/adahn/stm32 porjects/f103_rc/core/inc\" -I\"/home/adahn/stm32 porjects/f103_rc/drivers/cmsis/inc\" -I\"/home/adahn/stm32 porjects/f103_rc/drivers/ll/inc\" -g -std=gnu11 -mcpu=cortex-m3 -mthumb -mthumb-interwork -ffunction-sections -fdata-sections -fno-common -fmessage-length=0 -lc -lm -lnosys -specs=nano.specs -specs=nosys.specs -O0 -o CMakeFiles/f103_rc.elf.dir/drivers/ll/src/stm32f1xx_ll_exti.c.obj -c \"/home/adahn/stm32 porjects/f103_rc/drivers/ll/src/stm32f1xx_ll_exti.c\"",
+  "file": "/home/adahn/stm32 porjects/f103_rc/drivers/ll/src/stm32f1xx_ll_exti.c",
+  "output": "CMakeFiles/f103_rc.elf.dir/drivers/ll/src/stm32f1xx_ll_exti.c.obj"
+},
+{
+  "directory": "/home/adahn/stm32 porjects/f103_rc/build",
+  "command": "/usr/bin/arm-none-eabi-gcc -DSTM32F103xB -DUSE_FULL_LL_DRIVER -I\"/home/adahn/stm32 porjects/f103_rc/core/inc\" -I\"/home/adahn/stm32 porjects/f103_rc/drivers/cmsis/inc\" -I\"/home/adahn/stm32 porjects/f103_rc/drivers/ll/inc\" -g -std=gnu11 -mcpu=cortex-m3 -mthumb -mthumb-interwork -ffunction-sections -fdata-sections -fno-common -fmessage-length=0 -lc -lm -lnosys -specs=nano.specs -specs=nosys.specs -O0 -o CMakeFiles/f103_rc.elf.dir/drivers/ll/src/stm32f1xx_ll_fsmc.c.obj -c \"/home/adahn/stm32 porjects/f103_rc/drivers/ll/src/stm32f1xx_ll_fsmc.c\"",
+  "file": "/home/adahn/stm32 porjects/f103_rc/drivers/ll/src/stm32f1xx_ll_fsmc.c",
+  "output": "CMakeFiles/f103_rc.elf.dir/drivers/ll/src/stm32f1xx_ll_fsmc.c.obj"
+},
+{
+  "directory": "/home/adahn/stm32 porjects/f103_rc/build",
+  "command": "/usr/bin/arm-none-eabi-gcc -DSTM32F103xB -DUSE_FULL_LL_DRIVER -I\"/home/adahn/stm32 porjects/f103_rc/core/inc\" -I\"/home/adahn/stm32 porjects/f103_rc/drivers/cmsis/inc\" -I\"/home/adahn/stm32 porjects/f103_rc/drivers/ll/inc\" -g -std=gnu11 -mcpu=cortex-m3 -mthumb -mthumb-interwork -ffunction-sections -fdata-sections -fno-common -fmessage-length=0 -lc -lm -lnosys -specs=nano.specs -specs=nosys.specs -O0 -o CMakeFiles/f103_rc.elf.dir/drivers/ll/src/stm32f1xx_ll_gpio.c.obj -c \"/home/adahn/stm32 porjects/f103_rc/drivers/ll/src/stm32f1xx_ll_gpio.c\"",
+  "file": "/home/adahn/stm32 porjects/f103_rc/drivers/ll/src/stm32f1xx_ll_gpio.c",
+  "output": "CMakeFiles/f103_rc.elf.dir/drivers/ll/src/stm32f1xx_ll_gpio.c.obj"
+},
+{
+  "directory": "/home/adahn/stm32 porjects/f103_rc/build",
+  "command": "/usr/bin/arm-none-eabi-gcc -DSTM32F103xB -DUSE_FULL_LL_DRIVER -I\"/home/adahn/stm32 porjects/f103_rc/core/inc\" -I\"/home/adahn/stm32 porjects/f103_rc/drivers/cmsis/inc\" -I\"/home/adahn/stm32 porjects/f103_rc/drivers/ll/inc\" -g -std=gnu11 -mcpu=cortex-m3 -mthumb -mthumb-interwork -ffunction-sections -fdata-sections -fno-common -fmessage-length=0 -lc -lm -lnosys -specs=nano.specs -specs=nosys.specs -O0 -o CMakeFiles/f103_rc.elf.dir/drivers/ll/src/stm32f1xx_ll_i2c.c.obj -c \"/home/adahn/stm32 porjects/f103_rc/drivers/ll/src/stm32f1xx_ll_i2c.c\"",
+  "file": "/home/adahn/stm32 porjects/f103_rc/drivers/ll/src/stm32f1xx_ll_i2c.c",
+  "output": "CMakeFiles/f103_rc.elf.dir/drivers/ll/src/stm32f1xx_ll_i2c.c.obj"
+},
+{
+  "directory": "/home/adahn/stm32 porjects/f103_rc/build",
+  "command": "/usr/bin/arm-none-eabi-gcc -DSTM32F103xB -DUSE_FULL_LL_DRIVER -I\"/home/adahn/stm32 porjects/f103_rc/core/inc\" -I\"/home/adahn/stm32 porjects/f103_rc/drivers/cmsis/inc\" -I\"/home/adahn/stm32 porjects/f103_rc/drivers/ll/inc\" -g -std=gnu11 -mcpu=cortex-m3 -mthumb -mthumb-interwork -ffunction-sections -fdata-sections -fno-common -fmessage-length=0 -lc -lm -lnosys -specs=nano.specs -specs=nosys.specs -O0 -o CMakeFiles/f103_rc.elf.dir/drivers/ll/src/stm32f1xx_ll_pwr.c.obj -c \"/home/adahn/stm32 porjects/f103_rc/drivers/ll/src/stm32f1xx_ll_pwr.c\"",
+  "file": "/home/adahn/stm32 porjects/f103_rc/drivers/ll/src/stm32f1xx_ll_pwr.c",
+  "output": "CMakeFiles/f103_rc.elf.dir/drivers/ll/src/stm32f1xx_ll_pwr.c.obj"
+},
+{
+  "directory": "/home/adahn/stm32 porjects/f103_rc/build",
+  "command": "/usr/bin/arm-none-eabi-gcc -DSTM32F103xB -DUSE_FULL_LL_DRIVER -I\"/home/adahn/stm32 porjects/f103_rc/core/inc\" -I\"/home/adahn/stm32 porjects/f103_rc/drivers/cmsis/inc\" -I\"/home/adahn/stm32 porjects/f103_rc/drivers/ll/inc\" -g -std=gnu11 -mcpu=cortex-m3 -mthumb -mthumb-interwork -ffunction-sections -fdata-sections -fno-common -fmessage-length=0 -lc -lm -lnosys -specs=nano.specs -specs=nosys.specs -O0 -o CMakeFiles/f103_rc.elf.dir/drivers/ll/src/stm32f1xx_ll_rcc.c.obj -c \"/home/adahn/stm32 porjects/f103_rc/drivers/ll/src/stm32f1xx_ll_rcc.c\"",
+  "file": "/home/adahn/stm32 porjects/f103_rc/drivers/ll/src/stm32f1xx_ll_rcc.c",
+  "output": "CMakeFiles/f103_rc.elf.dir/drivers/ll/src/stm32f1xx_ll_rcc.c.obj"
+},
+{
+  "directory": "/home/adahn/stm32 porjects/f103_rc/build",
+  "command": "/usr/bin/arm-none-eabi-gcc -DSTM32F103xB -DUSE_FULL_LL_DRIVER -I\"/home/adahn/stm32 porjects/f103_rc/core/inc\" -I\"/home/adahn/stm32 porjects/f103_rc/drivers/cmsis/inc\" -I\"/home/adahn/stm32 porjects/f103_rc/drivers/ll/inc\" -g -std=gnu11 -mcpu=cortex-m3 -mthumb -mthumb-interwork -ffunction-sections -fdata-sections -fno-common -fmessage-length=0 -lc -lm -lnosys -specs=nano.specs -specs=nosys.specs -O0 -o CMakeFiles/f103_rc.elf.dir/drivers/ll/src/stm32f1xx_ll_rtc.c.obj -c \"/home/adahn/stm32 porjects/f103_rc/drivers/ll/src/stm32f1xx_ll_rtc.c\"",
+  "file": "/home/adahn/stm32 porjects/f103_rc/drivers/ll/src/stm32f1xx_ll_rtc.c",
+  "output": "CMakeFiles/f103_rc.elf.dir/drivers/ll/src/stm32f1xx_ll_rtc.c.obj"
+},
+{
+  "directory": "/home/adahn/stm32 porjects/f103_rc/build",
+  "command": "/usr/bin/arm-none-eabi-gcc -DSTM32F103xB -DUSE_FULL_LL_DRIVER -I\"/home/adahn/stm32 porjects/f103_rc/core/inc\" -I\"/home/adahn/stm32 porjects/f103_rc/drivers/cmsis/inc\" -I\"/home/adahn/stm32 porjects/f103_rc/drivers/ll/inc\" -g -std=gnu11 -mcpu=cortex-m3 -mthumb -mthumb-interwork -ffunction-sections -fdata-sections -fno-common -fmessage-length=0 -lc -lm -lnosys -specs=nano.specs -specs=nosys.specs -O0 -o CMakeFiles/f103_rc.elf.dir/drivers/ll/src/stm32f1xx_ll_sdmmc.c.obj -c \"/home/adahn/stm32 porjects/f103_rc/drivers/ll/src/stm32f1xx_ll_sdmmc.c\"",
+  "file": "/home/adahn/stm32 porjects/f103_rc/drivers/ll/src/stm32f1xx_ll_sdmmc.c",
+  "output": "CMakeFiles/f103_rc.elf.dir/drivers/ll/src/stm32f1xx_ll_sdmmc.c.obj"
+},
+{
+  "directory": "/home/adahn/stm32 porjects/f103_rc/build",
+  "command": "/usr/bin/arm-none-eabi-gcc -DSTM32F103xB -DUSE_FULL_LL_DRIVER -I\"/home/adahn/stm32 porjects/f103_rc/core/inc\" -I\"/home/adahn/stm32 porjects/f103_rc/drivers/cmsis/inc\" -I\"/home/adahn/stm32 porjects/f103_rc/drivers/ll/inc\" -g -std=gnu11 -mcpu=cortex-m3 -mthumb -mthumb-interwork -ffunction-sections -fdata-sections -fno-common -fmessage-length=0 -lc -lm -lnosys -specs=nano.specs -specs=nosys.specs -O0 -o CMakeFiles/f103_rc.elf.dir/drivers/ll/src/stm32f1xx_ll_spi.c.obj -c \"/home/adahn/stm32 porjects/f103_rc/drivers/ll/src/stm32f1xx_ll_spi.c\"",
+  "file": "/home/adahn/stm32 porjects/f103_rc/drivers/ll/src/stm32f1xx_ll_spi.c",
+  "output": "CMakeFiles/f103_rc.elf.dir/drivers/ll/src/stm32f1xx_ll_spi.c.obj"
+},
+{
+  "directory": "/home/adahn/stm32 porjects/f103_rc/build",
+  "command": "/usr/bin/arm-none-eabi-gcc -DSTM32F103xB -DUSE_FULL_LL_DRIVER -I\"/home/adahn/stm32 porjects/f103_rc/core/inc\" -I\"/home/adahn/stm32 porjects/f103_rc/drivers/cmsis/inc\" -I\"/home/adahn/stm32 porjects/f103_rc/drivers/ll/inc\" -g -std=gnu11 -mcpu=cortex-m3 -mthumb -mthumb-interwork -ffunction-sections -fdata-sections -fno-common -fmessage-length=0 -lc -lm -lnosys -specs=nano.specs -specs=nosys.specs -O0 -o CMakeFiles/f103_rc.elf.dir/drivers/ll/src/stm32f1xx_ll_tim.c.obj -c \"/home/adahn/stm32 porjects/f103_rc/drivers/ll/src/stm32f1xx_ll_tim.c\"",
+  "file": "/home/adahn/stm32 porjects/f103_rc/drivers/ll/src/stm32f1xx_ll_tim.c",
+  "output": "CMakeFiles/f103_rc.elf.dir/drivers/ll/src/stm32f1xx_ll_tim.c.obj"
+},
+{
+  "directory": "/home/adahn/stm32 porjects/f103_rc/build",
+  "command": "/usr/bin/arm-none-eabi-gcc -DSTM32F103xB -DUSE_FULL_LL_DRIVER -I\"/home/adahn/stm32 porjects/f103_rc/core/inc\" -I\"/home/adahn/stm32 porjects/f103_rc/drivers/cmsis/inc\" -I\"/home/adahn/stm32 porjects/f103_rc/drivers/ll/inc\" -g -std=gnu11 -mcpu=cortex-m3 -mthumb -mthumb-interwork -ffunction-sections -fdata-sections -fno-common -fmessage-length=0 -lc -lm -lnosys -specs=nano.specs -specs=nosys.specs -O0 -o CMakeFiles/f103_rc.elf.dir/drivers/ll/src/stm32f1xx_ll_usart.c.obj -c \"/home/adahn/stm32 porjects/f103_rc/drivers/ll/src/stm32f1xx_ll_usart.c\"",
+  "file": "/home/adahn/stm32 porjects/f103_rc/drivers/ll/src/stm32f1xx_ll_usart.c",
+  "output": "CMakeFiles/f103_rc.elf.dir/drivers/ll/src/stm32f1xx_ll_usart.c.obj"
+},
+{
+  "directory": "/home/adahn/stm32 porjects/f103_rc/build",
+  "command": "/usr/bin/arm-none-eabi-gcc -DSTM32F103xB -DUSE_FULL_LL_DRIVER -I\"/home/adahn/stm32 porjects/f103_rc/core/inc\" -I\"/home/adahn/stm32 porjects/f103_rc/drivers/cmsis/inc\" -I\"/home/adahn/stm32 porjects/f103_rc/drivers/ll/inc\" -g -std=gnu11 -mcpu=cortex-m3 -mthumb -mthumb-interwork -ffunction-sections -fdata-sections -fno-common -fmessage-length=0 -lc -lm -lnosys -specs=nano.specs -specs=nosys.specs -O0 -o CMakeFiles/f103_rc.elf.dir/drivers/ll/src/stm32f1xx_ll_usb.c.obj -c \"/home/adahn/stm32 porjects/f103_rc/drivers/ll/src/stm32f1xx_ll_usb.c\"",
+  "file": "/home/adahn/stm32 porjects/f103_rc/drivers/ll/src/stm32f1xx_ll_usb.c",
+  "output": "CMakeFiles/f103_rc.elf.dir/drivers/ll/src/stm32f1xx_ll_usb.c.obj"
+},
+{
+  "directory": "/home/adahn/stm32 porjects/f103_rc/build",
+  "command": "/usr/bin/arm-none-eabi-gcc -DSTM32F103xB -DUSE_FULL_LL_DRIVER -I\"/home/adahn/stm32 porjects/f103_rc/core/inc\" -I\"/home/adahn/stm32 porjects/f103_rc/drivers/cmsis/inc\" -I\"/home/adahn/stm32 porjects/f103_rc/drivers/ll/inc\" -g -std=gnu11 -mcpu=cortex-m3 -mthumb -mthumb-interwork -ffunction-sections -fdata-sections -fno-common -fmessage-length=0 -lc -lm -lnosys -specs=nano.specs -specs=nosys.specs -O0 -o CMakeFiles/f103_rc.elf.dir/drivers/ll/src/stm32f1xx_ll_utils.c.obj -c \"/home/adahn/stm32 porjects/f103_rc/drivers/ll/src/stm32f1xx_ll_utils.c\"",
+  "file": "/home/adahn/stm32 porjects/f103_rc/drivers/ll/src/stm32f1xx_ll_utils.c",
+  "output": "CMakeFiles/f103_rc.elf.dir/drivers/ll/src/stm32f1xx_ll_utils.c.obj"
+},
+{
+  "directory": "/home/adahn/stm32 porjects/f103_rc/build",
+  "command": "/usr/bin/arm-none-eabi-gcc -DSTM32F103xB -DUSE_FULL_LL_DRIVER -I\"/home/adahn/stm32 porjects/f103_rc/core/inc\" -I\"/home/adahn/stm32 porjects/f103_rc/drivers/cmsis/inc\" -I\"/home/adahn/stm32 porjects/f103_rc/drivers/ll/inc\" -g -std=gnu11 -mcpu=cortex-m3 -mthumb -mthumb-interwork -ffunction-sections -fdata-sections -fno-common -fmessage-length=0 -lc -lm -lnosys -specs=nano.specs -specs=nosys.specs -O0 -o CMakeFiles/f103_rc.elf.dir/drivers/syscalls/syscalls.c.obj -c \"/home/adahn/stm32 porjects/f103_rc/drivers/syscalls/syscalls.c\"",
+  "file": "/home/adahn/stm32 porjects/f103_rc/drivers/syscalls/syscalls.c",
+  "output": "CMakeFiles/f103_rc.elf.dir/drivers/syscalls/syscalls.c.obj"
+},
+{
+  "directory": "/home/adahn/stm32 porjects/f103_rc/build",
+  "command": "/usr/bin/arm-none-eabi-gcc -DSTM32F103xB -DUSE_FULL_LL_DRIVER -I\"/home/adahn/stm32 porjects/f103_rc/core/inc\" -I\"/home/adahn/stm32 porjects/f103_rc/drivers/cmsis/inc\" -I\"/home/adahn/stm32 porjects/f103_rc/drivers/ll/inc\" -g -mcpu=cortex-m3 -mthumb -mthumb-interwork -ffunction-sections -fdata-sections -fno-common -fmessage-length=0 -lc -lm -lnosys -specs=nano.specs -specs=nosys.specs -O0 -o CMakeFiles/f103_rc.elf.dir/startup_stm32f103xb.s.obj -c \"/home/adahn/stm32 porjects/f103_rc/startup_stm32f103xb.s\"",
+  "file": "/home/adahn/stm32 porjects/f103_rc/startup_stm32f103xb.s",
+  "output": "CMakeFiles/f103_rc.elf.dir/startup_stm32f103xb.s.obj"
+}
+]
