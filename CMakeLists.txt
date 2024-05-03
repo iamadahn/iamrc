@@ -49,6 +49,10 @@ include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/core/inc
     ${CMAKE_CURRENT_SOURCE_DIR}/drivers/cmsis/inc
     ${CMAKE_CURRENT_SOURCE_DIR}/drivers/ll/inc
+    #${CMAKE_CURRENT_SOURCE_DIR}/drivers/st7735
+    ${CMAKE_CURRENT_SOURCE_DIR}/app/u_rtos
+    ${CMAKE_CURRENT_SOURCE_DIR}/app/led_controller
+    ${CMAKE_CURRENT_SOURCE_DIR}/app/display_controller
 )
 
 # Add you source file
@@ -58,6 +62,10 @@ file(GLOB SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/drivers/cmsis/src/*.c"
     "${CMAKE_CURRENT_SOURCE_DIR}/drivers/syscalls/*.c"
     "${CMAKE_CURRENT_SOURCE_DIR}/drivers/ll/src/*.c"
+    #"${CMAKE_CURRENT_SOURCE_DIR}/drivers/st7735/*.c"
+    "${CMAKE_CURRENT_SOURCE_DIR}/app/u_rtos/*.c"
+    "${CMAKE_CURRENT_SOURCE_DIR}/app/led_controller/*.c"
+    "${CMAKE_CURRENT_SOURCE_DIR}/app/display_controller/*.c"
 )
 
  
@@ -72,6 +80,31 @@ add_link_options(-mcpu=cortex-m3 -mthumb -mthumb-interwork)
 add_link_options(-T ${LINKER_SCRIPT})
  
 add_executable(${PROJECT_NAME}.elf ${SOURCES} ${LINKER_SCRIPT})
+
+add_library(freertos_config INTERFACE)
+
+target_include_directories(freertos_config SYSTEM
+    INTERFACE
+        ${CMAKE_SOURCE_DIR}/core/inc) 
+
+target_compile_definitions(freertos_config
+    INTERFACE
+        projCOVERAGE_TEST=0
+)
+
+add_subdirectory(${CMAKE_SOURCE_DIR}/FreeRTOS-Kernel)
+
+set( FREERTOS_HEAP "4" CACHE STRING "" FORCE)
+# Select the native compile PORT
+set( FREERTOS_PORT "GCC_POSIX" CACHE STRING "" FORCE)
+# Select the cross-compile PORT
+if (CMAKE_CROSSCOMPILING)
+  set(FREERTOS_PORT "GCC_ARM_CM3" CACHE STRING "" FORCE)
+endif()
+
+target_link_libraries(${PROJECT_NAME}.elf
+    freertos_kernel
+)
  
 set(HEX_FILE ${PROJECT_BINARY_DIR}/${PROJECT_NAME}.hex)
 set(BIN_FILE ${PROJECT_BINARY_DIR}/${PROJECT_NAME}.bin)

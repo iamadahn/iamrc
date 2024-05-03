@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "stm32f1xx_ll_gpio.h": "c",
+        "stm32f1xx_ll_spi.h": "c"
+    }
+}
