@@ -5,7 +5,7 @@
 #include "stm32f1xx_ll_bus.h"
 
 void 
-spi_init(spi_t* spi) {
+spi_config(spi_t* spi) {
     /* Enable the peripheral clock of chosen SPI's gpio port */
     if (spi->spi_base == SPI1) {
         LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_GPIOA);
@@ -40,13 +40,13 @@ spi_init(spi_t* spi) {
     }
 
     /* Configure SPI itself */
-    LL_SPI_SetBaudRatePrescaler(spi->spi_base, LL_SPI_BAUDRATEPRESCALER_DIV64);
+    LL_SPI_SetBaudRatePrescaler(spi->spi_base, LL_SPI_BAUDRATEPRESCALER_DIV16);
     LL_SPI_SetTransferDirection(spi->spi_base, LL_SPI_FULL_DUPLEX);
     LL_SPI_SetClockPhase(spi->spi_base, LL_SPI_PHASE_1EDGE);
     LL_SPI_SetClockPolarity(spi->spi_base, LL_SPI_POLARITY_LOW);
     LL_SPI_SetTransferBitOrder(spi->spi_base, LL_SPI_MSB_FIRST);
-    LL_SPI_SetNSSMode(spi->spi_base, LL_SPI_NSS_SOFT);
     LL_SPI_SetDataWidth(spi->spi_base, LL_SPI_DATAWIDTH_8BIT);
+    LL_SPI_SetNSSMode(spi->spi_base, LL_SPI_NSS_SOFT);
     LL_SPI_SetMode(spi->spi_base, LL_SPI_MODE_MASTER);
 
     /* Configure SPI transfer interrupts */
@@ -58,4 +58,7 @@ spi_init(spi_t* spi) {
 
     /* Enable ERR (error) interrupt */
     LL_SPI_EnableIT_ERR(spi->spi_base);
+
+    /* Enable configured SPI */
+    LL_SPI_Enable(spi->spi_base);
 }

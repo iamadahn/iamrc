@@ -49,7 +49,7 @@ include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/core/inc
     ${CMAKE_CURRENT_SOURCE_DIR}/drivers/cmsis/inc
     ${CMAKE_CURRENT_SOURCE_DIR}/drivers/ll/inc
-    #${CMAKE_CURRENT_SOURCE_DIR}/drivers/st7735
+    ${CMAKE_CURRENT_SOURCE_DIR}/drivers/ssd1306
     ${CMAKE_CURRENT_SOURCE_DIR}/app/u_rtos
     ${CMAKE_CURRENT_SOURCE_DIR}/app/led_controller
     ${CMAKE_CURRENT_SOURCE_DIR}/app/display_controller
@@ -62,7 +62,7 @@ file(GLOB SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/drivers/cmsis/src/*.c"
     "${CMAKE_CURRENT_SOURCE_DIR}/drivers/syscalls/*.c"
     "${CMAKE_CURRENT_SOURCE_DIR}/drivers/ll/src/*.c"
-    #"${CMAKE_CURRENT_SOURCE_DIR}/drivers/st7735/*.c"
+    "${CMAKE_CURRENT_SOURCE_DIR}/drivers/ssd1306/*.c"
     "${CMAKE_CURRENT_SOURCE_DIR}/app/u_rtos/*.c"
     "${CMAKE_CURRENT_SOURCE_DIR}/app/led_controller/*.c"
     "${CMAKE_CURRENT_SOURCE_DIR}/app/display_controller/*.c"
