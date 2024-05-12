@@ -12,7 +12,6 @@ void
 display_controller_handler(void) {
     
     uint8_t tx_buf[64];
-    sprintf(tx_buf, "BUBLIK");
 
     ssd1306_t ssd1306 = {
         .i2c_base = I2C1,
@@ -20,28 +19,6 @@ display_controller_handler(void) {
     };
 
     ssd1306_Init(&ssd1306);
-
-    ssd1306_Fill(&ssd1306, Black);
-    ssd1306_UpdateScreen(&ssd1306);
-
-    ssd1306_WriteString(&ssd1306, (char*)tx_buf, Font_6x8, White);
-
-    ssd1306_SetCursor(&ssd1306, 10, 10);
-    sprintf(tx_buf, "PRODUCTIONS");
-    ssd1306_WriteString(&ssd1306, (char*)tx_buf, Font_6x8, White);
-    ssd1306_UpdateScreen(&ssd1306);
-
-    ssd1306_SetCursor(&ssd1306, 20, 20);
-    sprintf(tx_buf, "ENCORPORATED");
-    ssd1306_WriteString(&ssd1306, (char*)tx_buf, Font_6x8, White);
-    ssd1306_UpdateScreen(&ssd1306);
-
-    ssd1306_SetCursor(&ssd1306, 30, 30);
-    sprintf(tx_buf, "PRESENTS...");
-    ssd1306_WriteString(&ssd1306, (char*)tx_buf, Font_6x8, White);
-    ssd1306_UpdateScreen(&ssd1306);
-
-    vTaskDelay(pdMS_TO_TICKS(5000));
 
     ssd1306_Fill(&ssd1306, Black);
     ssd1306_UpdateScreen(&ssd1306);

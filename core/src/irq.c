@@ -39,10 +39,3 @@ void
 DebugMon_Handler(void) {
     ;
 }
-
-void 
-WWDG_IRQHandler(void) {
-    while (1) {
-        ;
-    }
-}

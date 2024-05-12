@@ -2,6 +2,7 @@
 #include "rcc.h"
 #include "spi.h"
 #include "i2c.h"
+#include "adc.h"
 #include "stm32f1xx_ll_bus.h"
 #include "stm32f1xx_ll_gpio.h"
 #include "stm32f1xx_ll_utils.h"
@@ -39,6 +40,24 @@ bsp_init(void) {
         .irq_event = I2C1_EV_IRQn,
     };
     i2c_config(&i2c1);
+
+    adc_t adc1_channel0 = {
+        .adc_base = ADC1,
+        .port = GPIOA,
+        .pin = LL_GPIO_PIN_0,
+        .channel = LL_ADC_CHANNEL_0,
+        .rank = LL_ADC_REG_RANK_1,
+    };
+    adc_config(&adc1_channel0);
+
+    adc_t adc1_channel1 = {
+        .adc_base = ADC1,
+        .port = GPIOA,
+        .pin = LL_GPIO_PIN_1,
+        .channel = LL_ADC_CHANNEL_1,
+        .rank = LL_ADC_REG_RANK_2,
+    };
+    adc_config(&adc1_channel1);
     
     /* Enable LED on GPIOB pin 2 */
     LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_GPIOB);
