@@ -9,12 +9,11 @@ typedef struct {
     GPIO_TypeDef* port;
     uint32_t pin;
     uint32_t channel;
-    uint32_t rank;
 } analog_stick_unit_t;
 
 typedef struct {
-    float x;
-    float y;
+    uint16_t x;
+    uint16_t y;
 } analog_stick_data_t;
 
 #endif

@@ -9,6 +9,7 @@ int
 main(void) {
     bsp_init();
     threads_init();
+    queues_init();
 
     vTaskStartScheduler();
 
