@@ -54,3 +54,6 @@ dkms.conf
 # folders
 build/
 .vscode/
+
+# vim swp
+*.swp

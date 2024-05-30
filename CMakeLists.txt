@@ -51,6 +51,7 @@ include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/drivers/ll/inc
     ${CMAKE_CURRENT_SOURCE_DIR}/drivers/ssd1306
     ${CMAKE_CURRENT_SOURCE_DIR}/drivers/analog_stick
+    ${CMAKE_CURRENT_SOURCE_DIR}/drivers/led
     ${CMAKE_CURRENT_SOURCE_DIR}/app/u_rtos
     ${CMAKE_CURRENT_SOURCE_DIR}/app/led_controller
     ${CMAKE_CURRENT_SOURCE_DIR}/app/display_controller
@@ -66,6 +67,7 @@ file(GLOB SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/drivers/ll/src/*.c"
     "${CMAKE_CURRENT_SOURCE_DIR}/drivers/ssd1306/*.c"
     "${CMAKE_CURRENT_SOURCE_DIR}/drivers/analog_stick/*.c"
+    "${CMAKE_CURRENT_SOURCE_DIR}/drivers/led/*.c/"
     "${CMAKE_CURRENT_SOURCE_DIR}/app/u_rtos/*.c"
     "${CMAKE_CURRENT_SOURCE_DIR}/app/led_controller/*.c"
     "${CMAKE_CURRENT_SOURCE_DIR}/app/display_controller/*.c"
@@ -98,13 +100,11 @@ target_compile_definitions(freertos_config
 
 add_subdirectory(${CMAKE_SOURCE_DIR}/FreeRTOS-Kernel)
 
+set(CMAKE_CROSSCOMPILLING)
+
 set( FREERTOS_HEAP "4" CACHE STRING "" FORCE)
-# Select the native compile PORT
-set( FREERTOS_PORT "GCC_POSIX" CACHE STRING "" FORCE)
 # Select the cross-compile PORT
-if (CMAKE_CROSSCOMPILING)
-  set(FREERTOS_PORT "GCC_ARM_CM3" CACHE STRING "" FORCE)
-endif()
+set(FREERTOS_PORT "GCC_ARM_CM3" CACHE STRING "" FORCE)
 
 target_link_libraries(${PROJECT_NAME}.elf
     freertos_kernel
