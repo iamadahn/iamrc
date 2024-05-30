@@ -57,3 +57,6 @@ build/
 
 # vim swp
 *.swp
+
+# vscode ctags
+.vscode-ctags
