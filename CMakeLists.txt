@@ -98,11 +98,11 @@ target_compile_definitions(freertos_config
         projCOVERAGE_TEST=0
 )
 
-add_subdirectory(${CMAKE_SOURCE_DIR}/FreeRTOS-Kernel)
-
 set( FREERTOS_HEAP "4" CACHE STRING "" FORCE)
 # Select the cross-compile PORT
 set(FREERTOS_PORT "GCC_ARM_CM3" CACHE STRING "" FORCE)
+
+add_subdirectory(${CMAKE_SOURCE_DIR}/FreeRTOS-Kernel)
 
 target_link_libraries(${PROJECT_NAME}.elf
     freertos_kernel
