@@ -51,6 +51,7 @@ include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/drivers/ll/inc
     ${CMAKE_CURRENT_SOURCE_DIR}/drivers/ssd1306
     ${CMAKE_CURRENT_SOURCE_DIR}/drivers/analog_stick
+    ${CMAKE_CURRENT_SOURCE_DIR}/drivers/nrf24l01
     ${CMAKE_CURRENT_SOURCE_DIR}/drivers/led
     ${CMAKE_CURRENT_SOURCE_DIR}/app/u_rtos
     ${CMAKE_CURRENT_SOURCE_DIR}/app/led_controller
@@ -68,6 +69,7 @@ file(GLOB SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/drivers/ssd1306/*.c"
     "${CMAKE_CURRENT_SOURCE_DIR}/drivers/analog_stick/*.c"
     "${CMAKE_CURRENT_SOURCE_DIR}/drivers/led/*.c/"
+    "${CMAKE_CURRENT_SOURCE_DIR}/drivers/nrf24l01/*.c/"
     "${CMAKE_CURRENT_SOURCE_DIR}/app/u_rtos/*.c"
     "${CMAKE_CURRENT_SOURCE_DIR}/app/led_controller/*.c"
     "${CMAKE_CURRENT_SOURCE_DIR}/app/display_controller/*.c"
