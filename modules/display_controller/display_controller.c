@@ -1,15 +1,14 @@
 #include "display_controller.h"
 #include "FreeRTOS.h"
-#include "FreeRTOSConfig.h"
 #include "task.h"
 #include "queue.h"
 #include "stdio.h"
-#include "ssd1306.h"
-#include "ssd1306_conf.h"
-#include "fonts.h"
+#include "drivers/ssd1306/ssd1306.h"
+#include "drivers/ssd1306/ssd1306_conf.h"
+#include "drivers/ssd1306/fonts.h"
+#include "drivers/analog_stick/analog_stick.h"
+#include "rtos.h"
 #include "stm32f1xx_ll_i2c.h"
-#include "u_rtos.h"
-#include "analog_stick.h"
 
 void
 display_controller_handler(void) {

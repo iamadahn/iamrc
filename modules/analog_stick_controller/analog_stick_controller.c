@@ -1,11 +1,10 @@
 #include "analog_stick_controller.h"
-#include "analog_stick.h"
+#include "drivers/analog_stick/analog_stick.h"
 #include "stm32f1xx_ll_adc.h"
 #include "stm32f1xx_ll_gpio.h"
 #include "FreeRTOS.h"
-#include "FreeRTOSConfig.h"
 #include "queue.h"
-#include "u_rtos.h"
+#include "rtos.h"
 
 void
 analog_stick_controller_handler(void) {

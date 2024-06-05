@@ -1,12 +1,12 @@
-#include "u_rtos.h"
+#include "rtos.h"
 #include "FreeRTOS.h"
 #include "FreeRTOSConfig.h"
 #include "task.h"
 #include "queue.h"
-#include "led_controller.h"
-#include "display_controller.h"
-#include "analog_stick_controller.h"
-#include "analog_stick.h"
+#include "drivers/analog_stick/analog_stick.h"
+#include "modules/led_controller/led_controller.h"
+#include "modules/display_controller/display_controller.h"
+#include "modules/analog_stick_controller/analog_stick_controller.h"
 
 QueueHandle_t analog_stick_queue;
 

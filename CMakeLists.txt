@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.17)
+cmake_minimum_required(VERSION 3.17) 
 set(CMAKE_SYSTEM_NAME Generic)
 set(CMAKE_SYSTEM_VERSION 1)
  
@@ -39,24 +39,21 @@ else ()
     add_compile_options(-O0)
 endif ()
 
-add_definitions(
+set(DEFINES
     -DSTM32F103xB
     -DUSE_FULL_LL_DRIVER
 )
 
+add_definitions(${DEFINES})
+
 # Add Include directories
 include_directories(
+    ${CMAKE_SOURCE_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/core/inc
     ${CMAKE_CURRENT_SOURCE_DIR}/drivers/cmsis/inc
     ${CMAKE_CURRENT_SOURCE_DIR}/drivers/ll/inc
-    ${CMAKE_CURRENT_SOURCE_DIR}/drivers/ssd1306
-    ${CMAKE_CURRENT_SOURCE_DIR}/drivers/analog_stick
     ${CMAKE_CURRENT_SOURCE_DIR}/drivers/nrf24l01
-    ${CMAKE_CURRENT_SOURCE_DIR}/drivers/led
-    ${CMAKE_CURRENT_SOURCE_DIR}/app/u_rtos
-    ${CMAKE_CURRENT_SOURCE_DIR}/app/led_controller
-    ${CMAKE_CURRENT_SOURCE_DIR}/app/display_controller
-    ${CMAKE_CURRENT_SOURCE_DIR}/app/analog_stick_controller
+    ${CMAKE_CURRENT_SOURCE_DIR}/rtos
 )
 
 # Add you source file
@@ -64,16 +61,9 @@ file(GLOB SOURCES
     startup_stm32f103xb.s
     "${CMAKE_CURRENT_SOURCE_DIR}/core/src/*.c"
     "${CMAKE_CURRENT_SOURCE_DIR}/drivers/cmsis/src/*.c"
-    "${CMAKE_CURRENT_SOURCE_DIR}/drivers/syscalls/*.c"
     "${CMAKE_CURRENT_SOURCE_DIR}/drivers/ll/src/*.c"
-    "${CMAKE_CURRENT_SOURCE_DIR}/drivers/ssd1306/*.c"
-    "${CMAKE_CURRENT_SOURCE_DIR}/drivers/analog_stick/*.c"
-    "${CMAKE_CURRENT_SOURCE_DIR}/drivers/led/*.c/"
     "${CMAKE_CURRENT_SOURCE_DIR}/drivers/nrf24l01/*.c/"
-    "${CMAKE_CURRENT_SOURCE_DIR}/app/u_rtos/*.c"
-    "${CMAKE_CURRENT_SOURCE_DIR}/app/led_controller/*.c"
-    "${CMAKE_CURRENT_SOURCE_DIR}/app/display_controller/*.c"
-    "${CMAKE_CURRENT_SOURCE_DIR}/app/analog_stick_controller/*.c"
+    "${CMAKE_CURRENT_SOURCE_DIR}/rtos/*.c"
 )
 
  
@@ -89,12 +79,34 @@ add_link_options(-T ${LINKER_SCRIPT})
  
 add_executable(${PROJECT_NAME}.elf ${SOURCES} ${LINKER_SCRIPT})
 
-add_library(freertos_config INTERFACE)
+add_library(root INTERFACE)
+target_include_directories(root INTERFACE ${CMAKE_SOURCE_DIR})
+target_compile_definitions(root INTERFACE ${DEFINES})
 
+add_subdirectory(${CMAKE_SOURCE_DIR}/drivers/analog_stick)
+add_subdirectory(${CMAKE_SOURCE_DIR}/drivers/led)
+add_subdirectory(${CMAKE_SOURCE_DIR}/drivers/ssd1306)
+
+target_link_libraries(${PROJECT_NAME}.elf
+    analog_stick
+    led
+    ssd1306
+)
+
+add_subdirectory(${CMAKE_SOURCE_DIR}/modules/analog_stick_controller)
+add_subdirectory(${CMAKE_SOURCE_DIR}/modules/display_controller)
+add_subdirectory(${CMAKE_SOURCE_DIR}/modules/led_controller)
+
+target_link_libraries(${PROJECT_NAME}.elf
+    analog_stick_controller
+    display_controller
+    led_controller
+)
+
+add_library(freertos_config INTERFACE)
 target_include_directories(freertos_config SYSTEM
     INTERFACE
         ${CMAKE_SOURCE_DIR}/core/inc) 
-
 target_compile_definitions(freertos_config
     INTERFACE
         projCOVERAGE_TEST=0

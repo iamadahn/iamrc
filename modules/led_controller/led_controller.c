@@ -1,8 +1,7 @@
 #include "led_controller.h"
-#include "led.h"
 #include "FreeRTOS.h"
-#include "FreeRTOSConfig.h"
 #include "task.h"
+#include "drivers/led/led.h"
 
 void
 led_controller_handler(void) {
