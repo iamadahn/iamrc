@@ -134,6 +134,10 @@ typedef enum {
 
 typedef struct {
     SPI_TypeDef* spi;
+	GPIO_TypeDef* cs_port;
+	uint32_t cs_pin;
+	GPIO_TypeDef* ce_port;
+	uint32_t ce_pin;
 } nrf24_t;
 
 uint8_t nrf24_init(nrf24_t* nrf24);
