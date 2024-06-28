@@ -112,6 +112,8 @@
 #define RF_PWR_LOW  1
 #define RF_PWR_HIGH 2
 
+#define NRF24_ADDR_WIDTH 5
+
 typedef enum {
 	RF24_PA_MIN = 0,
 	RF24_PA_LOW,
@@ -138,6 +140,12 @@ typedef struct {
 	uint32_t cs_pin;
 	GPIO_TypeDef* ce_port;
 	uint32_t ce_pin;
+	uint8_t payload_size;
+	uint8_t addr_width;
+	uint8_t p_variant;
+	uint8_t tx_delay_us;
+	uint8_t pipe0_reading_address[NRF24_ADDR_WIDTH];
+	uint8_t child_pipe_enable[6];
 } nrf24_t;
 
 uint8_t nrf24_init(nrf24_t* nrf24);
