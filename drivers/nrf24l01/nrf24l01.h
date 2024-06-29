@@ -144,8 +144,8 @@ typedef struct {
 	uint8_t addr_width;
 	uint8_t p_variant;
 	uint8_t tx_delay_us;
+	uint8_t dynamic_payloads_enabled;
 	uint8_t pipe0_reading_address[NRF24_ADDR_WIDTH];
-	uint8_t child_pipe_enable[6];
 } nrf24_t;
 
 uint8_t nrf24_init(nrf24_t* nrf24);
