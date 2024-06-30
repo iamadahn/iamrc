@@ -31,29 +31,38 @@ i2c_config(i2c_t* i2c) {
         LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_GPIOD);
     }
 
-    sda_init.Pin = i2c->sda_pin;
-    sda_init.Mode = LL_GPIO_MODE_ALTERNATE;
-    sda_init.Speed = LL_GPIO_SPEED_FREQ_HIGH;
-    sda_init.OutputType = LL_GPIO_OUTPUT_OPENDRAIN;
-    LL_GPIO_Init(i2c->sda_port, &sda_init);
-
-    scl_init.Pin = i2c->sda_pin;
-    scl_init.Mode = LL_GPIO_MODE_ALTERNATE;
-    scl_init.Speed = LL_GPIO_SPEED_FREQ_HIGH;
-    scl_init.OutputType = LL_GPIO_OUTPUT_OPENDRAIN;
-    LL_GPIO_Init(i2c->sda_port, &scl_init);
+    if (i2c->sda_port == i2c->scl_port) {
+        sda_init.Pin = i2c->sda_pin | i2c->scl_pin;
+        sda_init.Mode = LL_GPIO_MODE_ALTERNATE;
+        sda_init.Speed = LL_GPIO_SPEED_FREQ_HIGH;
+        sda_init.OutputType = LL_GPIO_OUTPUT_OPENDRAIN;
+        LL_GPIO_Init(i2c->sda_port, &sda_init);
+    } else {
+        sda_init.Pin = i2c->sda_pin;
+        sda_init.Mode = LL_GPIO_MODE_ALTERNATE;
+        sda_init.Speed = LL_GPIO_SPEED_FREQ_HIGH;
+        sda_init.OutputType = LL_GPIO_OUTPUT_OPENDRAIN;
+        LL_GPIO_Init(i2c->sda_port, &sda_init);
+        
+        scl_init.Pin = i2c->scl_pin;
+        scl_init.Mode = LL_GPIO_MODE_ALTERNATE;
+        scl_init.Speed = LL_GPIO_SPEED_FREQ_HIGH;
+        scl_init.OutputType = LL_GPIO_OUTPUT_OPENDRAIN;
+        LL_GPIO_Init(i2c->scl_port, &scl_init);
+    }
 
     if (i2c->i2c_base == I2C1) {
         LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_I2C1);
     } else if (i2c->i2c_base == I2C2) {
-        LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_I2C1);
+        LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_I2C2);
     } 
 
     LL_I2C_DisableOwnAddress2(i2c->i2c_base);
     LL_I2C_DisableGeneralCall(i2c->i2c_base);
     LL_I2C_EnableClockStretching(i2c->i2c_base);
+
     i2c_init.PeripheralMode = LL_I2C_MODE_I2C;
-    i2c_init.ClockSpeed = 400000;
+    i2c_init.ClockSpeed = 100000;
     i2c_init.DutyCycle = LL_I2C_DUTYCYCLE_2;
     i2c_init.OwnAddress1 = 0;
     i2c_init.TypeAcknowledge = LL_I2C_ACK;

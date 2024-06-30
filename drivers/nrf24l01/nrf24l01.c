@@ -8,9 +8,28 @@
 
 extern void delay_ms(uint32_t ms);
 
+static void dwt_init(void);
+
 static const uint8_t child_pipe[] = {RX_ADDR_P0, RX_ADDR_P1, RX_ADDR_P2, RX_ADDR_P3, RX_ADDR_P4, RX_ADDR_P5};
 static const uint8_t child_payload_size[] = {RX_PW_P0, RX_PW_P1, RX_PW_P2, RX_PW_P3, RX_PW_P4, RX_PW_P5};
 static const uint8_t child_pipe_enable[] = {ERX_P0, ERX_P1, ERX_P2, ERX_P3, ERX_P4, ERX_P5};
+
+static void
+nrf24_transmit_spi(SPI_TypeDef* spi, uint8_t data) {
+    while (!LL_SPI_IsActiveFlag_TXE(spi)) {
+        ;
+    }
+    LL_SPI_TransmitData8(spi, data);
+}
+
+static uint8_t
+nrf24_receive_spi(SPI_TypeDef* spi) {
+    while (!LL_SPI_IsActiveFlag_RXNE(spi)) {
+        ;
+    }
+    uint8_t data = LL_SPI_ReceiveData8(spi);
+    return data;
+}
 
 uint8_t
 nrf24_init(nrf24_t* nrf24) {
@@ -19,6 +38,8 @@ nrf24_init(nrf24_t* nrf24) {
     nrf24->addr_width = NRF24_ADDR_WIDTH;
     nrf24->p_variant = 0;
     nrf24->pipe0_reading_address[0] = 0;
+
+    dwt_init();
 
     nrf24_ce(nrf24, 0);
     nrf24_csn(nrf24, 1);
@@ -49,7 +70,7 @@ nrf24_init(nrf24_t* nrf24) {
     return (setup != 0x00 && setup != 0xFF);
 }
 
-void
+static void
 dwt_init(void) {
     SCB_DEMCR |= CoreDebug_DEMCR_TRCENA_Msk;
     DWT_CONTROL |= DWT_CTRL_CYCCNTENA_Msk;
@@ -71,7 +92,7 @@ nrf24_csn(nrf24_t* nrf24, uint8_t mode) {
     } else {
         LL_GPIO_ResetOutputPin(nrf24->cs_port, nrf24->cs_pin);
     }
-    delay_us(5);
+    delay_ms(1);
 }
 
 uint8_t
@@ -89,11 +110,12 @@ nrf24_read_register(nrf24_t* nrf24, uint8_t reg) {
     uint8_t data = 0;
 
     nrf24_csn(nrf24, 0);
-    LL_SPI_TransmitData8(nrf24->spi, addr);
-    data = LL_SPI_ReceiveData8(nrf24->spi);
-    LL_SPI_TransmitData8(nrf24->spi, (uint8_t)0xFF);
-    data = LL_SPI_ReceiveData8(nrf24->spi);
+    nrf24_transmit_spi(nrf24->spi, addr);
+    data = nrf24_receive_spi(nrf24->spi);
+    nrf24_transmit_spi(nrf24->spi, (uint8_t)0xFF);
+    data = nrf24_receive_spi(nrf24->spi);
     nrf24_csn(nrf24, 1);
+    
     return data;
 }
 
@@ -103,9 +125,9 @@ nrf24_write_register_single(nrf24_t* nrf24, uint8_t reg, uint8_t value) {
     uint8_t addr = W_REGISTER | (REGISTER_MASK & reg);
     
     nrf24_csn(nrf24, 0);
-    LL_SPI_TransmitData8(nrf24->spi, addr);
-    status = LL_SPI_ReceiveData8(nrf24->spi);
-    LL_SPI_TransmitData8(nrf24->spi, value);
+    nrf24_transmit_spi(nrf24->spi, addr);
+    status = nrf24_receive_spi(nrf24->spi);
+    nrf24_transmit_spi(nrf24->spi, value);
     nrf24_csn(nrf24, 1);
 
     return status;
@@ -119,10 +141,10 @@ nrf24_write_register_multi(nrf24_t* nrf24, uint8_t reg, const uint8_t* buf, uint
     uint8_t* data = (uint8_t*)buf;
 
     nrf24_csn(nrf24, 0);
-    LL_SPI_TransmitData8(nrf24->spi, addr);
-    status = LL_SPI_ReceiveData8(nrf24->spi);
+    nrf24_transmit_spi(nrf24->spi, addr);
+    status = nrf24_receive_spi(nrf24->spi);
     for (uint8_t i; i < len; i++) {
-        LL_SPI_TransmitData8(nrf24->spi, data[i]);
+        nrf24_transmit_spi(nrf24->spi, data[i]);
     }
     nrf24_csn(nrf24, 1);
 
@@ -139,15 +161,15 @@ nrf24_write_payload(nrf24_t* nrf24, const void* buf, uint8_t len, const uint8_t 
     uint8_t blank_len = nrf24->dynamic_payloads_enabled ? 0 : nrf24->payload_size - len;
 
     nrf24_csn(nrf24, 0);
-    LL_SPI_TransmitData8(nrf24->spi, addr);
-    status = LL_SPI_ReceiveData8(nrf24->spi);
+    nrf24_transmit_spi(nrf24->spi, addr);
+    status = nrf24_receive_spi(nrf24->spi);
     for (uint8_t i; i < len; i++) {
-        LL_SPI_TransmitData8(nrf24->spi, data[i]);
+        nrf24_transmit_spi(nrf24->spi, data[i]);
     }
 
     while (blank_len--) {
         uint8_t zero = 0;
-        LL_SPI_TransmitData8(nrf24->spi, zero);
+        nrf24_transmit_spi(nrf24->spi, zero);
     }
     nrf24_csn(nrf24, 1);
 
@@ -167,14 +189,14 @@ nrf24_read_payload(nrf24_t* nrf24, void* buf, uint8_t len) {
 
     uint8_t addr = R_RX_PAYLOAD;
     nrf24_csn(nrf24, 0);
-    LL_SPI_TransmitData8(nrf24->spi, addr);
+    nrf24_transmit_spi(nrf24->spi, addr);
     for (uint8_t i; i < len; i++) {
-        data[i] = LL_SPI_ReceiveData8(nrf24->spi);
+        data[i] = nrf24_receive_spi(nrf24->spi);
     }
 
     while(blank_len--) {
         uint8_t zero = 0;
-        zero = LL_SPI_ReceiveData8(nrf24->spi);
+        zero = nrf24_receive_spi(nrf24->spi);
     }
     nrf24_csn(nrf24, 1);
 
@@ -186,8 +208,8 @@ nrf24_spi_tx_rx(nrf24_t* nrf24, uint8_t cmd) {
     uint8_t status = 0;
     
     nrf24_csn(nrf24, 0);
-    LL_SPI_TransmitData8(nrf24->spi, cmd);
-    status = LL_SPI_ReceiveData8(nrf24->spi);
+    nrf24_transmit_spi(nrf24->spi, cmd);
+    status = nrf24_receive_spi(nrf24->spi);
     nrf24_csn(nrf24, 1);
 
     return status;
@@ -343,10 +365,10 @@ nrf24_get_dynamic_payload_size(nrf24_t* nrf24) {
     uint8_t result = 0, addr = R_RX_PL_WID;
 
     nrf24_csn(nrf24, 0);
-    LL_SPI_TransmitData8(nrf24->spi, addr);
-    result = LL_SPI_ReceiveData8(nrf24->spi);
-    LL_SPI_TransmitData8(nrf24->spi, (uint8_t)0xFF);
-    result = LL_SPI_ReceiveData8(nrf24->spi);
+    nrf24_transmit_spi(nrf24->spi, addr);
+    result = nrf24_receive_spi(nrf24->spi);
+    nrf24_transmit_spi(nrf24->spi, (uint8_t)0xFF);
+    result = nrf24_receive_spi(nrf24->spi);
     nrf24_csn(nrf24, 1);
 
     if (result > 32) {
@@ -444,8 +466,8 @@ uint8_t
 nrf24_toggle_features(nrf24_t* nrf24) {
     uint8_t addr = ACTIVATE;
     nrf24_csn(nrf24, 0);
-    LL_SPI_TransmitData8(nrf24->spi, addr);
-    LL_SPI_TransmitData8(nrf24->spi, (uint8_t)0x73);
+    nrf24_transmit_spi(nrf24->spi, addr);
+    nrf24_transmit_spi(nrf24->spi, (uint8_t)0x73);
     nrf24_csn(nrf24, 1);
 
     return 1;
@@ -492,9 +514,9 @@ nrf24_write_ack_payload(nrf24_t* nrf24, uint8_t pipe, const void* buf, uint8_t l
     uint8_t addr = W_ACK_PAYLOAD | (pipe & 0x07);
 
     nrf24_csn(nrf24, 0);
-    LL_SPI_TransmitData8(nrf24->spi, addr);
+    nrf24_transmit_spi(nrf24->spi, addr);
     for (uint8_t i = 0; i < data_len; i++) {
-        LL_SPI_TransmitData8(nrf24->spi, data[i]);
+        nrf24_transmit_spi(nrf24->spi, data[i]);
     }
     nrf24_csn(nrf24, 1);
 

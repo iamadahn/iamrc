@@ -5,12 +5,12 @@ set(SCRS
     ${CMAKE_CURRENT_LIST_DIR}/fonts.c
 )
 
-add_library(ssd1306 INTERFACE)
-target_sources(ssd1306 INTERFACE ${SCRS})
-target_include_directories(ssd1306 INTERFACE 
+add_library(ssd1306_driver INTERFACE)
+target_sources(ssd1306_driver INTERFACE ${SCRS})
+target_include_directories(ssd1306_driver INTERFACE 
     root
 )
-target_compile_definitions(ssd1306 INTERFACE root)
-target_link_libraries(ssd1306 INTERFACE
+target_compile_definitions(ssd1306_driver INTERFACE root)
+target_link_libraries(ssd1306_driver INTERFACE
     root
 )

@@ -85,22 +85,26 @@ target_compile_definitions(root INTERFACE ${DEFINES})
 
 add_subdirectory(${CMAKE_SOURCE_DIR}/drivers/analog_stick)
 add_subdirectory(${CMAKE_SOURCE_DIR}/drivers/led)
+add_subdirectory(${CMAKE_SOURCE_DIR}/drivers/nrf24l01)
 add_subdirectory(${CMAKE_SOURCE_DIR}/drivers/ssd1306)
 
 target_link_libraries(${PROJECT_NAME}.elf
-    analog_stick
-    led
-    ssd1306
+    analog_stick_driver
+    led_driver
+    ssd1306_driver
+    nrf24l01_driver
 )
 
 add_subdirectory(${CMAKE_SOURCE_DIR}/modules/analog_stick_controller)
 add_subdirectory(${CMAKE_SOURCE_DIR}/modules/display_controller)
 add_subdirectory(${CMAKE_SOURCE_DIR}/modules/led_controller)
+add_subdirectory(${CMAKE_SOURCE_DIR}/modules/rc_controller)
 
 target_link_libraries(${PROJECT_NAME}.elf
-    analog_stick_controller
-    display_controller
-    led_controller
+    analog_stick_controller_module
+    display_controller_module
+    led_controller_module
+    rc_controller_module
 )
 
 add_library(freertos_config INTERFACE)

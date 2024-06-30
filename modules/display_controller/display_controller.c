@@ -47,17 +47,27 @@ display_controller_handler(void) {
     ssd1306_UpdateScreen(&ssd1306);
 
     analog_stick_data_t analog_stick_data;
+    uint8_t nrf24_connect_state = 0;
 
     while (1) {
         xQueuePeek(analog_stick_queue, &analog_stick_data, portMAX_DELAY);
+        xQueuePeek(nrf24_state_queue, &nrf24_connect_state, portMAX_DELAY);
+
         ssd1306_SetCursor(&ssd1306, 0, 0);
         sprintf(tx_buf, "X - %.4d", analog_stick_data.x);
         ssd1306_WriteString(&ssd1306, (char*)tx_buf, Font_11x18, White);
         ssd1306_UpdateScreen(&ssd1306);
+
         ssd1306_SetCursor(&ssd1306, 0, 20);
         sprintf(tx_buf, "Y - %.4d", analog_stick_data.y);
         ssd1306_WriteString(&ssd1306, (char*)tx_buf, Font_11x18, White);
         ssd1306_UpdateScreen(&ssd1306);
+
+        ssd1306_SetCursor(&ssd1306, 0, 40);
+        sprintf(tx_buf, "NRF24 state - %d", nrf24_connect_state);
+        ssd1306_WriteString(&ssd1306, (char*)tx_buf, Font_6x8, White);
+        ssd1306_UpdateScreen(&ssd1306);
+
         vTaskDelay(pdMS_TO_TICKS(100));
     }
 }
