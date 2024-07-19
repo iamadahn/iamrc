@@ -36,13 +36,12 @@ elseif ("${CMAKE_BUILD_TYPE}" STREQUAL "MinSizeRel")
     add_compile_options(-Os)
 else ()
     message(STATUS "Minimal optimization, debug info included")
-    add_compile_options(-O0)
+    add_compile_options(-O0 -g)
 endif ()
 
 set(DEFINES
     -DSTM32F103xB
     -DUSE_FULL_LL_DRIVER
-    -DUSE_HAL_DRIVER
 )
 
 add_definitions(${DEFINES})
@@ -53,7 +52,6 @@ include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/core/inc
     ${CMAKE_CURRENT_SOURCE_DIR}/drivers/cmsis/inc
     ${CMAKE_CURRENT_SOURCE_DIR}/drivers/ll/inc
-    ${CMAKE_CURRENT_SOURCE_DIR}/drivers/hal/inc
     ${CMAKE_CURRENT_SOURCE_DIR}/drivers/nrf24l01
     ${CMAKE_CURRENT_SOURCE_DIR}/rtos
 )
@@ -64,7 +62,6 @@ file(GLOB SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/core/src/*.c"
     "${CMAKE_CURRENT_SOURCE_DIR}/drivers/cmsis/src/*.c"
     "${CMAKE_CURRENT_SOURCE_DIR}/drivers/ll/src/*.c"
-    "${CMAKE_CURRENT_SOURCE_DIR}/drivers/hal/src/*.c"
     "${CMAKE_CURRENT_SOURCE_DIR}/drivers/nrf24l01/*.c/"
     "${CMAKE_CURRENT_SOURCE_DIR}/rtos/*.c"
 )

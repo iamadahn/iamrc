@@ -10,32 +10,32 @@
 #define rf24_min(a,b) (a<b?a:b)
 
 /* Memory Map */
-#define NRF_CONFIG      0x00
-#define EN_AA       0x01
-#define EN_RXADDR   0x02
-#define SETUP_AW    0x03
-#define SETUP_RETR  0x04
-#define RF_CH       0x05
-#define RF_SETUP    0x06
-#define NRF_STATUS  0x07
-#define OBSERVE_TX  0x08
-#define CD          0x09
-#define RX_ADDR_P0  0x0A
-#define RX_ADDR_P1  0x0B
-#define RX_ADDR_P2  0x0C
-#define RX_ADDR_P3  0x0D
-#define RX_ADDR_P4  0x0E
-#define RX_ADDR_P5  0x0F
-#define TX_ADDR     0x10
-#define RX_PW_P0    0x11
-#define RX_PW_P1    0x12
-#define RX_PW_P2    0x13
-#define RX_PW_P3    0x14
-#define RX_PW_P4    0x15
-#define RX_PW_P5    0x16
-#define FIFO_STATUS 0x17
-#define DYNPD	    0x1C
-#define FEATURE	    0x1D
+#define NRF_CONFIG      0x00U
+#define EN_AA       0x01U
+#define EN_RXADDR   0x02U
+#define SETUP_AW    0x03U
+#define SETUP_RETR  0x04U
+#define RF_CH       0x05U
+#define RF_SETUP    0x06U
+#define NRF_STATUS  0x07U
+#define OBSERVE_TX  0x08U
+#define CD          0x09U
+#define RX_ADDR_P0  0x0AU
+#define RX_ADDR_P1  0x0BU
+#define RX_ADDR_P2  0x0CU
+#define RX_ADDR_P3  0x0DU
+#define RX_ADDR_P4  0x0EU
+#define RX_ADDR_P5  0x0FU
+#define TX_ADDR     0x10U
+#define RX_PW_P0    0x11U
+#define RX_PW_P1    0x12U
+#define RX_PW_P2    0x13U
+#define RX_PW_P3    0x14U
+#define RX_PW_P4    0x15U
+#define RX_PW_P5    0x16U
+#define FIFO_STATUS 0x17U
+#define DYNPD	    0x1CU
+#define FEATURE	    0x1DU
 
 /* Bit Mnemonics */
 #define MASK_RX_DR  6
@@ -86,18 +86,18 @@
 #define EN_DYN_ACK  0
 
 /* Instruction Mnemonics */
-#define R_REGISTER    0x00
-#define W_REGISTER    0x20
-#define REGISTER_MASK 0x1F
-#define ACTIVATE      0x50
-#define R_RX_PL_WID   0x60
-#define R_RX_PAYLOAD  0x61
-#define W_TX_PAYLOAD  0xA0
-#define W_ACK_PAYLOAD 0xA8
-#define FLUSH_TX      0xE1
-#define FLUSH_RX      0xE2
-#define REUSE_TX_PL   0xE3
-#define NOP           0xFF
+#define R_REGISTER    0x00U
+#define W_REGISTER    0x20U
+#define REGISTER_MASK 0x1FU
+#define ACTIVATE      0x50U
+#define R_RX_PL_WID   0x60U
+#define R_RX_PAYLOAD  0x61U
+#define W_TX_PAYLOAD  0xA0U
+#define W_ACK_PAYLOAD 0xA8U
+#define FLUSH_TX      0xE1U
+#define FLUSH_RX      0xE2U
+#define REUSE_TX_PL   0xE3U
+#define NOP           0xFFU
 
 /* Non-P omissions */
 #define LNA_HCURR   0

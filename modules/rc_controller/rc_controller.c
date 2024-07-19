@@ -7,9 +7,9 @@ rc_controller_task_handler(void) {
     nrf24_t nrf24 = {
         .spi = SPI1,
         .ce_port = GPIOC,
-        .ce_pin = 14,
+        .ce_pin =  LL_GPIO_PIN_14,
         .cs_port = GPIOC,
-        .cs_pin = 13,
+        .cs_pin = LL_GPIO_PIN_13,
     };
     uint8_t nrf24_connect_state = nrf24_is_connected(&nrf24);
     

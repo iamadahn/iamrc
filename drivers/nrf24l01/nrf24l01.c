@@ -27,8 +27,7 @@ nrf24_receive_spi(SPI_TypeDef* spi) {
     while (!LL_SPI_IsActiveFlag_RXNE(spi)) {
         ;
     }
-    uint8_t data = LL_SPI_ReceiveData8(spi);
-    return data;
+    return LL_SPI_ReceiveData8(spi);
 }
 
 uint8_t
@@ -112,7 +111,7 @@ nrf24_read_register(nrf24_t* nrf24, uint8_t reg) {
     nrf24_csn(nrf24, 0);
     nrf24_transmit_spi(nrf24->spi, addr);
     data = nrf24_receive_spi(nrf24->spi);
-    nrf24_transmit_spi(nrf24->spi, (uint8_t)0xFF);
+    nrf24_transmit_spi(nrf24->spi, 0xFF);
     data = nrf24_receive_spi(nrf24->spi);
     nrf24_csn(nrf24, 1);
     

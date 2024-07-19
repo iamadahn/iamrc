@@ -20,7 +20,7 @@ void
 threads_init(void) {
     xTaskCreate(led_controller_task, "led_controller", configMINIMAL_STACK_SIZE, NULL, tskIDLE_PRIORITY, NULL);
 
-    xTaskCreate(display_controller_task, "display_controller", configMINIMAL_STACK_SIZE, NULL, configMAX_PRIORITIES - 1U, NULL);
+    //xTaskCreate(display_controller_task, "display_controller", configMINIMAL_STACK_SIZE, NULL, configMAX_PRIORITIES - 1U, NULL);
 
     xTaskCreate(analog_stick_controller_task, "analog_stick_controller", configMINIMAL_STACK_SIZE, NULL, configMAX_PRIORITIES - 1U, NULL);
 
