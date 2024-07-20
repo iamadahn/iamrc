@@ -1,8 +1,6 @@
 #ifndef NRF24L01_H_
 #define NRF24L01_H_
 
-#include "string.h"
-#include "stdio.h"
 #include "stm32f1xx_ll_spi.h"
 #include "stm32f1xx_ll_gpio.h"
 

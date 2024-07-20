@@ -1,8 +1,4 @@
 #include "rtos.h"
-#include "FreeRTOS.h"
-#include "FreeRTOSConfig.h"
-#include "task.h"
-#include "queue.h"
 #include "drivers/analog_stick/analog_stick.h"
 #include "modules/led_controller/led_controller.h"
 #include "modules/display_controller/display_controller.h"
@@ -20,7 +16,7 @@ void
 threads_init(void) {
     xTaskCreate(led_controller_task, "led_controller", configMINIMAL_STACK_SIZE, NULL, tskIDLE_PRIORITY, NULL);
 
-    //xTaskCreate(display_controller_task, "display_controller", configMINIMAL_STACK_SIZE, NULL, configMAX_PRIORITIES - 1U, NULL);
+    xTaskCreate(display_controller_task, "display_controller", configMINIMAL_STACK_SIZE, NULL, configMAX_PRIORITIES - 1U, NULL);
 
     xTaskCreate(analog_stick_controller_task, "analog_stick_controller", configMINIMAL_STACK_SIZE, NULL, configMAX_PRIORITIES - 1U, NULL);
 
@@ -31,6 +27,11 @@ void
 queues_init(void) {
     analog_stick_queue = xQueueCreate(1, sizeof(analog_stick_data_t));
     nrf24_state_queue = xQueueCreate(1, sizeof(uint8_t));
+}
+
+void
+kernel_start(void) {
+    vTaskStartScheduler();
 }
 
 void

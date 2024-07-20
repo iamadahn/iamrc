@@ -1,4 +1,5 @@
 #include "nrf24l01.h"
+#include "string.h"
 
 #define DWT_CONTROL *(volatile unsigned long*)0xE0001000
 #define SCB_DEMCR   *(volatile unsigned long*)0xE000EDFC
@@ -114,7 +115,7 @@ nrf24_read_register(nrf24_t* nrf24, uint8_t reg) {
     nrf24_transmit_spi(nrf24->spi, 0xFF);
     data = nrf24_receive_spi(nrf24->spi);
     nrf24_csn(nrf24, 1);
-    
+
     return data;
 }
 
@@ -122,7 +123,7 @@ uint8_t
 nrf24_write_register_single(nrf24_t* nrf24, uint8_t reg, uint8_t value) {
     uint8_t status = 0;
     uint8_t addr = W_REGISTER | (REGISTER_MASK & reg);
-    
+
     nrf24_csn(nrf24, 0);
     nrf24_transmit_spi(nrf24->spi, addr);
     status = nrf24_receive_spi(nrf24->spi);
@@ -136,7 +137,7 @@ uint8_t
 nrf24_write_register_multi(nrf24_t* nrf24, uint8_t reg, const uint8_t* buf, uint8_t len) {
     uint8_t status;
     uint8_t addr = W_REGISTER | (REGISTER_MASK & reg);
-    
+
     uint8_t* data = (uint8_t*)buf;
 
     nrf24_csn(nrf24, 0);
@@ -205,7 +206,7 @@ nrf24_read_payload(nrf24_t* nrf24, void* buf, uint8_t len) {
 uint8_t
 nrf24_spi_tx_rx(nrf24_t* nrf24, uint8_t cmd) {
     uint8_t status = 0;
-    
+
     nrf24_csn(nrf24, 0);
     nrf24_transmit_spi(nrf24->spi, cmd);
     status = nrf24_receive_spi(nrf24->spi);
@@ -266,7 +267,7 @@ uint8_t
 nrf24_turn_off(nrf24_t* nrf24) {
     nrf24_ce(nrf24, 0);
     nrf24_write_register_single(nrf24, NRF_CONFIG, nrf24_read_register(nrf24, NRF_CONFIG) & ~(1 << PWR_UP));
-    
+
     return 1;
 }
 
@@ -315,7 +316,7 @@ nrf24_listening_stop(nrf24_t* nrf24) {
 
     nrf24_write_register_single(nrf24, NRF_CONFIG, (nrf24_read_register(nrf24, NRF_CONFIG)) & ~(1 << PRIM_RX));
     nrf24_write_register_single(nrf24, EN_RXADDR, (nrf24_read_register(nrf24, EN_RXADDR)) | (1 << child_pipe_enable[0]));
-    
+
     return 1;
 }
 
@@ -386,7 +387,7 @@ nrf24_is_available(nrf24_t* nrf24, uint8_t* pipe_num) {
             uint8_t status = nrf24_get_status(nrf24);
             *pipe_num = (status >> RX_P_NO) & 0x07;
         }
-        
+
         return 1;
     }
 
@@ -408,7 +409,7 @@ nrf24_read(nrf24_t* nrf24, void* buf, uint8_t len) {
 uint8_t
 nrf24_what_happened(nrf24_t* nrf24) {
     uint8_t status = nrf24_write_register_single(nrf24, NRF_STATUS, (1 << RX_DR) | (1 << TX_DS) | (1 << MAX_RT));
-    return status; 
+    return status;
 }
 
 uint8_t
@@ -457,7 +458,7 @@ nrf24_set_address_width(nrf24_t* nrf24, uint8_t a_width) {
 uint8_t
 nrf24_close_reading_pipe(nrf24_t* nrf24, uint8_t pipe) {
     nrf24_write_register_single(nrf24, EN_RXADDR, nrf24_read_register(nrf24, EN_RXADDR) & ~(1 <<child_pipe_enable[pipe]));
-    
+
     return 1;
 }
 
@@ -573,7 +574,7 @@ nrf24_set_pa_level(nrf24_t* nrf24, uint8_t level) {
     }
 
     nrf24_write_register_single(nrf24, RF_SETUP, setup |= level);
-    
+
     return 1;
 }
 
@@ -609,7 +610,7 @@ nrf24_set_data_rate(nrf24_t* nrf24, nrf24_datarate_e speed) {
 	return result;
 }
 
-nrf24_datarate_e 
+nrf24_datarate_e
 nrf24_get_data_rate(nrf24_t* nrf24) {
 	nrf24_datarate_e result;
 	uint8_t dr = nrf24_read_register(nrf24, RF_SETUP) & ((1 << RF_DR_LOW) | (1 << RF_DR_HIGH));
@@ -643,7 +644,7 @@ nrf24_set_crc_length(nrf24_t* nrf24, nrf24_crclength_e length) {
 	nrf24_write_register_single(nrf24, NRF_CONFIG, config);
 }
 
-nrf24_crclength_e 
+nrf24_crclength_e
 nrf24_get_crc_length(nrf24_t* nrf24) {
 	nrf24_crclength_e result = NRF24_CRC_DISABLED;
 

@@ -60,3 +60,6 @@ build/
 
 # vscode ctags
 .vscode-ctags
+
+# clangd cache
+.cache
