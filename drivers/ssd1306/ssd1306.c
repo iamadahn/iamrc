@@ -7,6 +7,7 @@
 
 
 
+
 void ssd1306_Reset(ssd1306_t* ssd1306) {
     /* for I2C - do nothing */
 }

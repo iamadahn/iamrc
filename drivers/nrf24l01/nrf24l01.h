@@ -1,8 +1,7 @@
 #ifndef NRF24L01_H_
 #define NRF24L01_H_
 
-#include "stm32f1xx_ll_spi.h"
-#include "stm32f1xx_ll_gpio.h"
+#include "stm32f103xb.h"
 
 #define rf24_max(a,b) (a>b?a:b)
 #define rf24_min(a,b) (a<b?a:b)

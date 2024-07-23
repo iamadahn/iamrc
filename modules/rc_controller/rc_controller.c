@@ -1,6 +1,7 @@
 #include "rc_controller.h"
-#include "drivers/nrf24l01/nrf24l01.h"
 #include "rtos.h"
+#include "stm32f1xx_ll_gpio.h"
+#include "drivers/nrf24l01/nrf24l01.h"
 
 void
 rc_controller_task_handler(void) {

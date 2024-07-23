@@ -2,9 +2,7 @@
 #include <stddef.h>
 #include "stm32f1xx_ll_i2c.h"
 #include "stm32f1xx_ll_gpio.h"
-#include "stm32f1xx_ll_rcc.h"
 #include "stm32f1xx_ll_bus.h"
-#include "stm32f1xx_ll_utils.h"
 
 void
 i2c_config(i2c_t* i2c) {
@@ -43,7 +41,7 @@ i2c_config(i2c_t* i2c) {
         sda_init.Speed = LL_GPIO_SPEED_FREQ_HIGH;
         sda_init.OutputType = LL_GPIO_OUTPUT_OPENDRAIN;
         LL_GPIO_Init(i2c->sda_port, &sda_init);
-        
+
         scl_init.Pin = i2c->scl_pin;
         scl_init.Mode = LL_GPIO_MODE_ALTERNATE;
         scl_init.Speed = LL_GPIO_SPEED_FREQ_HIGH;
@@ -55,7 +53,7 @@ i2c_config(i2c_t* i2c) {
         LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_I2C1);
     } else if (i2c->i2c_base == I2C2) {
         LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_I2C2);
-    } 
+    }
 
     LL_I2C_DisableOwnAddress2(i2c->i2c_base);
     LL_I2C_DisableGeneralCall(i2c->i2c_base);
@@ -72,12 +70,12 @@ i2c_config(i2c_t* i2c) {
 }
 
 
-void 
+void
 i2c_mem_write(I2C_TypeDef* i2c_base, uint8_t i2c_addr, uint16_t reg_addr, void* buf, uint32_t len) {
     /* check void pointer for NULL*/
     if (buf == NULL) {
         return;
-    } 
+    }
     uint8_t* msg = buf;
     LL_I2C_DisableBitPOS(i2c_base);
 
@@ -118,4 +116,3 @@ i2c_mem_write(I2C_TypeDef* i2c_base, uint8_t i2c_addr, uint16_t reg_addr, void* 
     /* generate stop condition on the bus */
     LL_I2C_GenerateStopCondition(i2c_base);
 }
-

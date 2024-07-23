@@ -12,8 +12,9 @@
 #include <stdint.h>
 #include <_ansi.h>
 
+#include "stm32f103xb.h"
+
 #include "ssd1306_conf.h"
-#include "stm32f1xx_ll_i2c.h"
 
 #ifdef SSD1306_X_OFFSET
 #define SSD1306_X_OFFSET_LOWER (SSD1306_X_OFFSET & 0x0F)

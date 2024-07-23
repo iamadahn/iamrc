@@ -1,5 +1,7 @@
 #include "nrf24l01.h"
 #include "string.h"
+#include "stm32f1xx_ll_gpio.h"
+#include "stm32f1xx_ll_spi.h"
 
 #define DWT_CONTROL *(volatile unsigned long*)0xE0001000
 #define SCB_DEMCR   *(volatile unsigned long*)0xE000EDFC
@@ -93,6 +95,8 @@ nrf24_csn(nrf24_t* nrf24, uint8_t mode) {
         LL_GPIO_ResetOutputPin(nrf24->cs_port, nrf24->cs_pin);
     }
     delay_ms(1);
+
+    return 1;
 }
 
 uint8_t
@@ -102,6 +106,8 @@ nrf24_ce(nrf24_t* nrf24, uint8_t level) {
     } else {
         LL_GPIO_ResetOutputPin(nrf24->ce_port, nrf24->ce_pin);
     }
+
+    return 1;
 }
 
 uint8_t
@@ -641,7 +647,7 @@ nrf24_set_crc_length(nrf24_t* nrf24, nrf24_crclength_e length) {
 		config |= (1 << CRCO);
 	}
 
-	nrf24_write_register_single(nrf24, NRF_CONFIG, config);
+	return nrf24_write_register_single(nrf24, NRF_CONFIG, config);
 }
 
 nrf24_crclength_e

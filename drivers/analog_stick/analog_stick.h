@@ -1,8 +1,7 @@
 #ifndef ANALOG_STICK_H_
 #define ANALOG_STICK_H_
 
-#include "stm32f1xx_ll_adc.h"
-#include "stm32f1xx_ll_gpio.h"
+#include "stm32f103xb.h"
 
 typedef struct {
     ADC_TypeDef* adc_base;
