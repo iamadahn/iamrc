@@ -11,7 +11,7 @@
 #include "stm32f1xx_ll_i2c.h"
 
 void
-display_controller_handler(void) {
+display_controller_task(void* argument) {
     
     uint8_t tx_buf[64];
 

@@ -4,7 +4,7 @@
 #include "drivers/led/led.h"
 
 void
-led_controller_handler(void) {
+led_controller_task(void* argument) {
     led_t led_debug = {
         .port = GPIOB,
         .pin = LL_GPIO_PIN_2,

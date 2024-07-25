@@ -7,7 +7,7 @@
 #include "rtos.h"
 
 void
-analog_stick_controller_handler(void) {
+analog_stick_controller_task(void* argument) {
     analog_stick_unit_t analoag_stick_y = {
         .adc_base = ADC1,
         .port = GPIOA,

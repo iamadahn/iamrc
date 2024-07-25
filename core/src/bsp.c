@@ -5,6 +5,7 @@
 #include "adc.h"
 #include "stm32f1xx_ll_bus.h"
 #include "stm32f1xx_ll_gpio.h"
+#include "FreeRTOSConfig.h"
 
 void
 bsp_init(void) {
@@ -69,4 +70,19 @@ bsp_init(void) {
     LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_GPIOA);
     LL_GPIO_SetPinMode(GPIOA, LL_GPIO_PIN_4, LL_GPIO_MODE_OUTPUT);
     LL_GPIO_SetOutputPin(GPIOA, LL_GPIO_PIN_4);
+
+    LL_GPIO_InitTypeDef usb_pins = {
+		.Pin = LL_GPIO_PIN_11 | LL_GPIO_PIN_12,
+		.Mode = LL_GPIO_MODE_ALTERNATE,
+		.Speed = LL_GPIO_SPEED_FREQ_HIGH,
+		.OutputType = LL_GPIO_OUTPUT_PUSHPULL,
+	};
+
+	LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_GPIOA);
+	LL_GPIO_Init(GPIOA, &usb_pins);         
+
+	NVIC_SetPriority(USB_HP_CAN1_TX_IRQn, configLIBRARY_MAX_SYSCALL_INTERRUPT_PRIORITY );
+	NVIC_SetPriority(USB_LP_CAN1_RX0_IRQn, configLIBRARY_MAX_SYSCALL_INTERRUPT_PRIORITY );
+    
+	LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_USB);
 }

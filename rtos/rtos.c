@@ -4,6 +4,7 @@
 #include "modules/display_controller/display_controller.h"
 #include "modules/analog_stick_controller/analog_stick_controller.h"
 #include "modules/rc_controller/rc_controller.h"
+#include <FreeRTOSConfig.h>
 
 QueueHandle_t analog_stick_queue, nrf24_state_queue;
 
@@ -32,26 +33,6 @@ queues_init(void) {
 void
 kernel_start(void) {
     vTaskStartScheduler();
-}
-
-void
-led_controller_task(void* pv_argument) {
-    led_controller_handler();
-}
-
-void
-display_controller_task(void* pv_argument) {
-    display_controller_handler();
-}
-
-void
-analog_stick_controller_task(void* pv_argument) {
-    analog_stick_controller_handler();
-}
-
-void
-rc_controller_task(void* pv_argument) {
-    rc_controller_task_handler();
 }
 
 #if ( configCHECK_FOR_STACK_OVERFLOW > 0 )

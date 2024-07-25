@@ -12,9 +12,4 @@ void threads_init(void);
 void queues_init(void);
 void kernel_start(void);
 
-void led_controller_task(void* pv_argument);
-void display_controller_task(void* pv_argument);
-void analog_stick_controller_task(void* pv_argument);
-void rc_controller_task(void* pv_argument);
-
 #endif

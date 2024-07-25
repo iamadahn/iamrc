@@ -42,6 +42,7 @@ endif ()
 set(DEFINES
     -DSTM32F103xB
     -DUSE_FULL_LL_DRIVER
+    -DCFG_TUSB_MCU=OPT_MCU_STM32F1
 )
 
 add_definitions(${DEFINES})
@@ -99,12 +100,14 @@ add_subdirectory(${CMAKE_SOURCE_DIR}/modules/analog_stick_controller)
 add_subdirectory(${CMAKE_SOURCE_DIR}/modules/display_controller)
 add_subdirectory(${CMAKE_SOURCE_DIR}/modules/led_controller)
 add_subdirectory(${CMAKE_SOURCE_DIR}/modules/rc_controller)
+add_subdirectory(${CMAKE_SOURCE_DIR}/modules/usbd_controller)
 
 target_link_libraries(${PROJECT_NAME}.elf
     analog_stick_controller_module
     display_controller_module
     led_controller_module
     rc_controller_module
+    usbd_controller_module
 )
 
 add_library(freertos_config INTERFACE)
@@ -125,6 +128,25 @@ add_subdirectory(${CMAKE_SOURCE_DIR}/FreeRTOS-Kernel)
 target_link_libraries(${PROJECT_NAME}.elf
     freertos_kernel
 )
+
+add_library(tinyusb_config)
+target_include_directories(tinyusb_config PRIVATE
+	${CMAKE_SOURCE_DIR}/tinyusb/src
+	${CMAKE_SOURCE_DIR}/core/inc
+	${CMAKE_SOURCE_DIR}/modules/usbd_controller
+	${CMAKE_SOURCE_DIR}/core/src
+	)
+target_sources(tinyusb_config PRIVATE
+	${CMAKE_SOURCE_DIR}/tinyusb/src/portable/st/stm32_fsdev/dcd_stm32_fsdev.c
+   )
+
+add_subdirectory(tinyusb/src)
+
+target_link_libraries(${PROJECT_NAME}.elf
+    tinyusb
+    tinyusb_config
+)
+
 
 target_compile_definitions(freertos_config INTERFACE ${definitions})
 target_compile_options(freertos_config INTERFACE ${options})
