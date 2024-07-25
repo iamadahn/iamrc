@@ -28,9 +28,9 @@ static void echo_serial_port(uint8_t itf, uint8_t buf[], uint32_t count) {
 
 // USB CDC
 static void cdc_task(void) {
-  uint8_t itf;
+    uint8_t itf;
 
-  for (itf = 0; itf < CFG_TUD_CDC; itf++) {
+    for (itf = 0; itf < CFG_TUD_CDC; itf++) {
         if (tud_cdc_n_available(itf)) {
             uint8_t buf[64];
             uint32_t count = tud_cdc_n_read(itf, buf, sizeof(buf));
