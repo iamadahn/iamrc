@@ -132,10 +132,10 @@ target_link_libraries(${PROJECT_NAME}.elf
 add_library(tinyusb_config)
 target_include_directories(tinyusb_config PRIVATE
 	${CMAKE_SOURCE_DIR}/tinyusb/src
+	${CMAKE_SOURCE_DIR}/core/src
 	${CMAKE_SOURCE_DIR}/core/inc
 	${CMAKE_SOURCE_DIR}/modules/usbd_controller
-	${CMAKE_SOURCE_DIR}/core/src
-	)
+	)                            
 target_sources(tinyusb_config PRIVATE
 	${CMAKE_SOURCE_DIR}/tinyusb/src/portable/st/stm32_fsdev/dcd_stm32_fsdev.c
    )

@@ -4,6 +4,7 @@
 #include "modules/display_controller/display_controller.h"
 #include "modules/analog_stick_controller/analog_stick_controller.h"
 #include "modules/rc_controller/rc_controller.h"
+#include "modules/usbd_controller/usbd_controller.h"
 #include <FreeRTOSConfig.h>
 
 QueueHandle_t analog_stick_queue, nrf24_state_queue;
@@ -22,6 +23,8 @@ threads_init(void) {
     xTaskCreate(analog_stick_controller_task, "analog_stick_controller", configMINIMAL_STACK_SIZE, NULL, configMAX_PRIORITIES - 1U, NULL);
 
     xTaskCreate(rc_controller_task, "rc_controller", configMINIMAL_STACK_SIZE * 2, NULL, configMAX_PRIORITIES - 1U, NULL);
+
+    xTaskCreate(usbd_controller_task, "usbd_controller", configMINIMAL_STACK_SIZE * 3, NULL, configMAX_PRIORITIES - 1U, NULL);
 }
 
 void
