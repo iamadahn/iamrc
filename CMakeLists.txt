@@ -43,6 +43,7 @@ set(DEFINES
     -DSTM32F103xB
     -DUSE_FULL_LL_DRIVER
     -DCFG_TUSB_MCU=OPT_MCU_STM32F1
+    -DLOGGER_BUF_SIZE=128
 )
 
 add_definitions(${DEFINES})
@@ -88,12 +89,14 @@ add_subdirectory(${CMAKE_SOURCE_DIR}/drivers/analog_stick)
 add_subdirectory(${CMAKE_SOURCE_DIR}/drivers/led)
 add_subdirectory(${CMAKE_SOURCE_DIR}/drivers/nrf24l01)
 add_subdirectory(${CMAKE_SOURCE_DIR}/drivers/ssd1306)
+add_subdirectory(${CMAKE_SOURCE_DIR}/drivers/logger)
 
 target_link_libraries(${PROJECT_NAME}.elf
     analog_stick_driver
     led_driver
     ssd1306_driver
     nrf24l01_driver
+    logger_driver
 )
 
 add_subdirectory(${CMAKE_SOURCE_DIR}/modules/analog_stick_controller)
