@@ -8,6 +8,9 @@ use embassy_stm32::time::Hertz;
 use embassy_stm32::gpio::{Level, Output, Speed};
 use {defmt_rtt as _, panic_probe as _};
 
+mod led;
+use self::led::led_controller_task as led_controller;
+
 #[embassy_executor::main]
 async fn main(spawner: Spawner) -> ! {
     info!("Booting iamrc...");
@@ -44,16 +47,6 @@ async fn main(spawner: Spawner) -> ! {
 
     loop {
         info!("Main: delay");
-        Timer::after_millis(500).await;
-    }
-}
-
-#[embassy_executor::task]
-async fn led_controller(mut led: Output<'static>) {
-    info!("Starting led heartbeat task");
-    loop {
-        led.toggle();
-        info!("Led controller: toggled led");
         Timer::after_millis(500).await;
     }
 }
