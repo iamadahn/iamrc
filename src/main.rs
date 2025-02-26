@@ -9,7 +9,7 @@ use embassy_stm32::gpio::{Level, Output, Speed};
 use {defmt_rtt as _, panic_probe as _};
 
 #[embassy_executor::main]
-async fn main(_spawner: Spawner) {
+async fn main(spawner: Spawner) -> ! {
     info!("Booting iamrc...");
 
     let mut config = embassy_stm32::Config::default();
@@ -38,16 +38,22 @@ async fn main(_spawner: Spawner) {
 
     info!("Initialising hardware...");
     let peripherals = embassy_stm32::init(config);
-    let mut led = Output::new(peripherals.PC13, Level::High, Speed::Low);
+    let led = Output::new(peripherals.PC13, Level::High, Speed::Low);
 
-    info!("Entering main loop..");
+    spawner.spawn(led_controller(led)).ok();
+
     loop {
-        led.set_high();
-        info!("Led set to high.");
+        info!("Main: delay");
         Timer::after_millis(500).await;
+    }
+}
 
-        led.set_low();
-        info!("Led set to low.");
+#[embassy_executor::task]
+async fn led_controller(mut led: Output<'static>) {
+    info!("Starting led heartbeat task");
+    loop {
+        led.toggle();
+        info!("Led controller: toggled led");
         Timer::after_millis(500).await;
     }
 }
