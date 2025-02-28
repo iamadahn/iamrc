@@ -6,6 +6,8 @@ use embassy_executor::Spawner;
 use embassy_time::Timer;
 use embassy_stm32::time::Hertz;
 use embassy_stm32::gpio::{Level, Output, Speed};
+use embassy_stm32::spi;
+use embedded_nrf24l01::*;
 use {defmt_rtt as _, panic_probe as _};
 
 mod led;
@@ -43,10 +45,54 @@ async fn main(spawner: Spawner) -> ! {
     let peripherals = embassy_stm32::init(config);
     let led = Output::new(peripherals.PC13, Level::High, Speed::Low);
 
+    // PB10 - SPI3_SCK, PB14 - SPI3_MISO, PB15 - SPI3_MOSI
+    let mut nrf_spi_config = spi::Config::default();
+    nrf_spi_config.frequency = Hertz(1_000_000);
+
+    let nrf_spi = spi::Spi::new_blocking(
+        peripherals.SPI2,
+        peripherals.PB10,
+        peripherals.PB15,
+        peripherals.PB14,
+        nrf_spi_config
+    ); 
+    let nrf_cs = Output::new(peripherals.PB13, Level::High, Speed::High);
+    let nrf_csn = Output::new(peripherals.PA8, Level::High, Speed::High);
+
+    let mut nrf = NRF24L01::new(nrf_cs, nrf_csn, nrf_spi).unwrap();
+    nrf.set_frequency(8).unwrap();
+    nrf.set_auto_retransmit(15, 15).unwrap();
+    nrf.set_rf(&DataRate::R2Mbps, 0).unwrap();
+    nrf
+        .set_pipes_rx_enable(&[true, false, false, false, false, false])
+        .unwrap();
+    nrf
+        .set_auto_ack(&[true, false, false, false, false, false])
+        .unwrap();
+    nrf.set_pipes_rx_lengths(&[None; 6]).unwrap();
+    nrf.set_crc(CrcMode::TwoBytes).unwrap();
+    nrf.set_rx_addr(0, &b"fnord"[..]).unwrap();
+    nrf.set_tx_addr(&b"fnord"[..]).unwrap();
+    nrf.flush_rx().unwrap();
+    nrf.flush_tx().unwrap();
+
     spawner.spawn(led_controller(led)).ok();
 
+    let mut nrf = nrf.tx().unwrap();
+    let mut bytes: [u8; 5] = [0x11, 0x22, 0x33, 0x44, 0x55];
+
     loop {
-        info!("Main: delay");
+        for i in 0..bytes.len() {
+            if bytes[i] == 255 {
+                bytes[i] = 0;
+            } else {
+                bytes[i] += 1;
+            }
+        }
+
+        _ = nrf.send(&bytes);
+        _ = nrf.poll_send();
+        info!("Main: sent {} bytes", bytes);
         Timer::after_millis(500).await;
     }
 }
