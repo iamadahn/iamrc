@@ -9,11 +9,9 @@ use embassy_stm32::gpio::{Level, Output, Speed};
 use embassy_stm32::spi;
 use {defmt_rtt as _, panic_probe as _};
 
-mod led;
-use self::led::led_controller_task as led_controller;
-
-mod rc;
-use self::rc::rc_controller_task as rc_controller;
+mod tasks;
+use tasks::led::led_controller_task as led_controller;
+use tasks::rc::rc_controller_task as rc_controller;
 
 #[embassy_executor::main]
 async fn main(spawner: Spawner) -> ! {
