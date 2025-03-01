@@ -22,6 +22,9 @@ heapless = { version = "0.8", default-features = false }
 nb = "1.0.0"
 static_cell = "2.0.0"
 embedded-nrf24l01 = "0.2.0"
+st7735-lcd = "0.10.0"
+embedded-graphics = "0.8.1"
+embedded-hal-bus = "0.3.0"
 
 [profile.dev]
 opt-level = "s"
