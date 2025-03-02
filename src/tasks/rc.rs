@@ -7,7 +7,7 @@ use embedded_nrf24l01::*;
 
 #[embassy_executor::task]
 pub async fn rc_controller_task(spi: Spi<'static, Blocking>, ce: Output<'static>, cns: Output<'static>) {
-    info!("Starting remote conroller task");
+    info!("Starting remote controller task");
     let mut nrf = NRF24L01::new(ce, cns, spi).unwrap();
     nrf.set_frequency(8).unwrap();
     nrf.set_auto_retransmit(15, 15).unwrap();
