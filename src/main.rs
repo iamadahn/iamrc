@@ -1,9 +1,12 @@
 #![no_std]
 #![no_main]
 
+use static_cell::StaticCell;
 use defmt::*;
 use embassy_executor::Spawner;
 use embassy_time::Timer;
+use embassy_sync::channel::Channel;
+use embassy_sync::blocking_mutex::raw::NoopRawMutex;
 use embassy_stm32::time::Hertz;
 use embassy_stm32::gpio::{Level, Output, Speed};
 use embassy_stm32::adc::{Adc, AdcChannel};
@@ -13,8 +16,12 @@ use {defmt_rtt as _, panic_probe as _};
 mod tasks;
 use tasks::led::led_controller_task as led_controller;
 use tasks::rc::rc_controller_task as rc_controller;
-use tasks::adc::adc_controller_task as adc_controller;
+use tasks::joystick::joystick_controller_task as joystick_controller;
 use tasks::display::display_controller_task as display_controller;
+
+use tasks::joystick::JoystickData;
+
+static JOYSTICK_CHANNEL: StaticCell<Channel<NoopRawMutex, JoystickData, 1>> = StaticCell::new();
 
 #[embassy_executor::main]
 async fn main(spawner: Spawner) -> ! {
@@ -86,14 +93,18 @@ async fn main(spawner: Spawner) -> ! {
     let adc_ch2 = peripherals.PA2.degrade_adc();
     let adc_ch3 = peripherals.PA3.degrade_adc();
 
+    let joystick_ch: &'static mut _ = JOYSTICK_CHANNEL.init(Channel::new());
+    let joytstick_rx = joystick_ch.receiver();
+    let joytstick_tx = joystick_ch.sender();
+
     info!("Spawning tasks.");
     spawner.spawn(led_controller(led)).ok();
     spawner.spawn(rc_controller(nrf_spi, nrf_ce, nrf_cns)).ok();
-    spawner.spawn(adc_controller(adc, adc_ch0, adc_ch1, adc_ch2, adc_ch3)).ok();
-    spawner.spawn(display_controller(disp_spi, disp_cs, disp_dc, disp_rst, disp_bl)).ok();
+    spawner.spawn(joystick_controller(adc, adc_ch0, adc_ch1, adc_ch2, adc_ch3, joytstick_tx)).ok();
+    spawner.spawn(display_controller(disp_spi, disp_cs, disp_dc, disp_rst, disp_bl, joytstick_rx)).ok();
 
     loop {
-        Timer::after_millis(500).await;
+        Timer::after_millis(1000).await;
     }
 }
 
