@@ -8,6 +8,8 @@ use embassy_time::Timer;
 use embedded_nrf24l01::*;
 use crate::InputData;
 
+const PAYLOAD_LENGTH: usize = 14;
+
 #[embassy_executor::task]
 pub async fn rc_controller_task(
     spi: Spi<'static, Blocking>,
@@ -33,21 +35,44 @@ pub async fn rc_controller_task(
     nrf.flush_tx().unwrap();
 
     let mut nrf = nrf.tx().unwrap();
-    let mut bytes: [u8; 5] = [0x11, 0x22, 0x33, 0x44, 0x55];
 
     loop {
-        for i in 0..bytes.len() {
-            if bytes[i] == 255 {
-                bytes[i] = 0;
-            } else {
-                bytes[i] += 1;
-            }
-        }
-
-        _ = nrf.send(&bytes);
+        let input = input_sub.receive().await;
+        let payload = payload_construct(input);
+        _ = nrf.send(&payload);
         _ = nrf.poll_send();
-        info!("Rc controller: sent {} bytes", bytes);
-        Timer::after_millis(500).await;
+        info!("Rc controller: sent {} bytes", payload);
     }
+}
+
+fn payload_construct(input: InputData) -> [u8; PAYLOAD_LENGTH] {
+    let mut bytes: [u8; PAYLOAD_LENGTH] = [0x00; PAYLOAD_LENGTH];
+    bytes[0] = 0xDE;
+    bytes[1] = 0xAD;
+    bytes[2] = 0xBA;
+    bytes[3] = 0xBE;
+    let mut buf = input.x1.to_be_bytes();
+    bytes[4..6].clone_from_slice(&buf);
+    buf = input.y1.to_be_bytes();
+    bytes[6..8].clone_from_slice(&buf);
+    buf = input.x2.to_be_bytes();
+    bytes[8..10].clone_from_slice(&buf);
+    buf = input.y2.to_be_bytes();
+    bytes[10..12].clone_from_slice(&buf);
+    checksum_add(&mut bytes);
+    bytes
+}
+
+fn checksum_add(payload: &mut [u8; PAYLOAD_LENGTH]) {
+    let mut ch_a: u8 = 0;
+    let mut ch_b: u8 = 0;
+    for byte in 0..(PAYLOAD_LENGTH - 2) {
+        unsafe {
+            ch_a = ch_a.unchecked_add(payload[byte]);
+            ch_b = ch_b.unchecked_add(ch_a);
+        }
+    }
+    payload[PAYLOAD_LENGTH - 2] = ch_a;
+    payload[PAYLOAD_LENGTH - 1] = ch_b;
 }
 
