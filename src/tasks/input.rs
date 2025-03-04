@@ -30,7 +30,7 @@ pub async fn input_controller_task(
             y2: adc.blocking_read(&mut ch3),
         };
         input_pub.publish(input).await;
-        Timer::after_millis(500).await;
+        Timer::after_millis(100).await;
     }
 }
 
