@@ -1,5 +1,5 @@
 use defmt::*;
-use embassy_sync::channel::Receiver;
+use embassy_sync::pubsub::Subscriber;
 use embassy_sync::blocking_mutex::raw::NoopRawMutex;
 use embassy_stm32::gpio::Output;
 use embassy_stm32::spi::Spi;
@@ -15,7 +15,7 @@ pub async fn rc_controller_task(
     spi: Spi<'static, Blocking>,
     ce: Output<'static>,
     cns: Output<'static>,
-    input_sub: Receiver<'static, NoopRawMutex, InputData, 1>) {
+    mut input_sub: Subscriber<'static, NoopRawMutex, InputData, 1, 2, 1>) {
     info!("Starting remote controller task");
     let mut nrf = NRF24L01::new(ce, cns, spi).unwrap();
     nrf.set_frequency(8).unwrap();
@@ -37,7 +37,7 @@ pub async fn rc_controller_task(
     let mut nrf = nrf.tx().unwrap();
 
     loop {
-        let input = input_sub.receive().await;
+        let input = input_sub.next_message_pure().await;
         let payload = payload_construct(input);
         _ = nrf.send(&payload);
         _ = nrf.poll_send();
@@ -64,15 +64,13 @@ fn payload_construct(input: InputData) -> [u8; PAYLOAD_LENGTH] {
 }
 
 fn checksum_add(payload: &mut [u8; PAYLOAD_LENGTH]) {
-    let mut ch_a: u8 = 0;
-    let mut ch_b: u8 = 0;
+    let mut ck_a: u8 = 0;
+    let mut ck_b: u8 = 0;
     for byte in 0..(PAYLOAD_LENGTH - 2) {
-        unsafe {
-            ch_a = ch_a.unchecked_add(payload[byte]);
-            ch_b = ch_b.unchecked_add(ch_a);
-        }
+        ck_a = ck_a.wrapping_add(payload[byte]);
+        ck_b = ck_b.wrapping_add(ck_a);
     }
-    payload[PAYLOAD_LENGTH - 2] = ch_a;
-    payload[PAYLOAD_LENGTH - 1] = ch_b;
+    payload[PAYLOAD_LENGTH - 2] = ck_a;
+    payload[PAYLOAD_LENGTH - 1] = ck_b;
 }
 

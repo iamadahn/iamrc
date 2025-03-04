@@ -5,7 +5,7 @@ use static_cell::StaticCell;
 use defmt::*;
 use embassy_executor::Spawner;
 use embassy_time::Timer;
-use embassy_sync::channel::Channel;
+use embassy_sync::pubsub::PubSubChannel;
 use embassy_sync::blocking_mutex::raw::NoopRawMutex;
 use embassy_stm32::time::Hertz;
 use embassy_stm32::gpio::{Level, Output, Speed};
@@ -21,7 +21,7 @@ use tasks::display::display_controller_task as display_controller;
 
 use tasks::input::InputData;
 
-static INPUT_CHANNEL: StaticCell<Channel<NoopRawMutex, InputData, 1>> = StaticCell::new();
+static INPUT_CHANNEL: StaticCell<PubSubChannel<NoopRawMutex, InputData, 1, 2, 1>> = StaticCell::new();
 
 #[embassy_executor::main]
 async fn main(spawner: Spawner) -> ! {
@@ -95,10 +95,10 @@ async fn main(spawner: Spawner) -> ! {
     let adc_ch2 = peripherals.PA2.degrade_adc();
     let adc_ch3 = peripherals.PA3.degrade_adc();
 
-    let input_ch: &'static mut _ = INPUT_CHANNEL.init(Channel::new());
-    let input_pub = input_ch.sender();
-    let disp_input_sub = input_ch.receiver();
-    let nrf_input_sub = input_ch.receiver();
+    let input_ch: &'static mut _ = INPUT_CHANNEL.init(PubSubChannel::new());
+    let input_pub = input_ch.publisher().unwrap();
+    let disp_input_sub = input_ch.subscriber().unwrap();
+    let nrf_input_sub = input_ch.subscriber().unwrap();
 
     info!("Spawning tasks.");
     spawner.spawn(led_controller(led)).ok();

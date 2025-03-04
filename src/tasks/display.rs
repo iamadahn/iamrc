@@ -2,7 +2,7 @@ use defmt::info;
 use core::fmt::Write;
 use heapless::String;
 use embassy_time::Delay;
-use embassy_sync::channel::Receiver;
+use embassy_sync::pubsub::Subscriber;
 use embassy_sync::blocking_mutex::raw::NoopRawMutex;
 use embassy_stm32::gpio::Output;
 use embassy_stm32::spi::Spi;
@@ -24,7 +24,7 @@ pub async fn display_controller_task(
     dc: Output<'static>,
     rst: Output<'static>,
     _bl: Output<'static>,
-    input_sub: Receiver<'static, NoopRawMutex, InputData, 1>) {
+    mut input_sub: Subscriber<'static, NoopRawMutex, InputData, 1, 2, 1>) {
     info!("Starting display controller task");
     let display_spi_device = embedded_hal_bus::spi::ExclusiveDevice::new_no_delay(spi, cs).unwrap();
     let mut display_device = st7735_lcd::ST7735::new(
@@ -42,7 +42,7 @@ pub async fn display_controller_task(
     display_device.clear(Rgb565::BLACK).unwrap();
 
     loop {
-        let data = input_sub.receive().await;
+        let data = input_sub.next_message_pure().await;
         let mut fdata = [Rgb565::BLACK; 160 * 10];
         let mut fbuf = FrameBuf::new(&mut fdata, 160, 10);
         let mut data_str = String::<32>::new();
