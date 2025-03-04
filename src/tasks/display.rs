@@ -15,7 +15,7 @@ use embedded_graphics::{
     mono_font::{ascii::FONT_6X10, MonoTextStyle},
 };
 use embedded_graphics_framebuf::FrameBuf;
-use crate::JoystickData;
+use crate::InputData;
 
 #[embassy_executor::task]
 pub async fn display_controller_task(
@@ -24,7 +24,7 @@ pub async fn display_controller_task(
     dc: Output<'static>,
     rst: Output<'static>,
     _bl: Output<'static>,
-    joystick_rx: Receiver<'static, NoopRawMutex, JoystickData, 1>) {
+    input_sub: Receiver<'static, NoopRawMutex, InputData, 1>) {
     info!("Starting display controller task");
     let display_spi_device = embedded_hal_bus::spi::ExclusiveDevice::new_no_delay(spi, cs).unwrap();
     let mut display_device = st7735_lcd::ST7735::new(
@@ -33,8 +33,8 @@ pub async fn display_controller_task(
         rst,
         true,
         false,
-        162,
-        130
+        160,
+        128
     );
 
     display_device.init(&mut Delay).unwrap();
@@ -42,7 +42,7 @@ pub async fn display_controller_task(
     display_device.clear(Rgb565::BLACK).unwrap();
 
     loop {
-        let data = joystick_rx.receive().await;
+        let data = input_sub.receive().await;
         let mut fdata = [Rgb565::BLACK; 160 * 10];
         let mut fbuf = FrameBuf::new(&mut fdata, 160, 10);
         let mut data_str = String::<32>::new();

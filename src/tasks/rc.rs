@@ -6,14 +6,14 @@ use embassy_stm32::spi::Spi;
 use embassy_stm32::mode::Blocking;
 use embassy_time::Timer;
 use embedded_nrf24l01::*;
-use crate::JoystickData;
+use crate::InputData;
 
 #[embassy_executor::task]
 pub async fn rc_controller_task(
     spi: Spi<'static, Blocking>,
     ce: Output<'static>,
     cns: Output<'static>,
-    joystick_rx: Receiver<'static, NoopRawMutex, JoystickData, 1>) {
+    input_sub: Receiver<'static, NoopRawMutex, InputData, 1>) {
     info!("Starting remote controller task");
     let mut nrf = NRF24L01::new(ce, cns, spi).unwrap();
     nrf.set_frequency(8).unwrap();

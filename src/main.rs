@@ -16,12 +16,12 @@ use {defmt_rtt as _, panic_probe as _};
 mod tasks;
 use tasks::led::led_controller_task as led_controller;
 use tasks::rc::rc_controller_task as rc_controller;
-use tasks::joystick::joystick_controller_task as joystick_controller;
+use tasks::input::input_controller_task as input_controller;
 use tasks::display::display_controller_task as display_controller;
 
-use tasks::joystick::JoystickData;
+use tasks::input::InputData;
 
-static JOYSTICK_CHANNEL: StaticCell<Channel<NoopRawMutex, JoystickData, 1>> = StaticCell::new();
+static INPUT_CHANNEL: StaticCell<Channel<NoopRawMutex, InputData, 1>> = StaticCell::new();
 
 #[embassy_executor::main]
 async fn main(spawner: Spawner) -> ! {
@@ -95,16 +95,16 @@ async fn main(spawner: Spawner) -> ! {
     let adc_ch2 = peripherals.PA2.degrade_adc();
     let adc_ch3 = peripherals.PA3.degrade_adc();
 
-    let joystick_ch: &'static mut _ = JOYSTICK_CHANNEL.init(Channel::new());
-    let joy_tx = joystick_ch.sender();
-    let disp_joy_rx = joystick_ch.receiver();
-    let nrf_joy_rx = joystick_ch.receiver();
+    let input_ch: &'static mut _ = INPUT_CHANNEL.init(Channel::new());
+    let input_pub = input_ch.sender();
+    let disp_input_sub = input_ch.receiver();
+    let nrf_input_sub = input_ch.receiver();
 
     info!("Spawning tasks.");
     spawner.spawn(led_controller(led)).ok();
-    spawner.spawn(joystick_controller(adc, adc_ch0, adc_ch1, adc_ch2, adc_ch3, joy_tx)).ok();
-    spawner.spawn(rc_controller(nrf_spi, nrf_ce, nrf_cns, nrf_joy_rx)).ok();
-    spawner.spawn(display_controller(disp_spi, disp_cs, disp_dc, disp_rst, disp_bl, disp_joy_rx)).ok();
+    spawner.spawn(input_controller(adc, adc_ch0, adc_ch1, adc_ch2, adc_ch3, input_pub)).ok();
+    spawner.spawn(rc_controller(nrf_spi, nrf_ce, nrf_cns, nrf_input_sub)).ok();
+    spawner.spawn(display_controller(disp_spi, disp_cs, disp_dc, disp_rst, disp_bl, disp_input_sub)).ok();
 
     loop {
         Timer::after_millis(1000).await;
