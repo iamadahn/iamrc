@@ -73,11 +73,13 @@ async fn main(spawner: Spawner) -> ! {
     let mut disp_spi_config = spi::Config::default();
     disp_spi_config.frequency = Hertz(40_000_000);
 
-    let disp_spi = spi::Spi::new_blocking(
+    let disp_spi = spi::Spi::new(
         peripherals.SPI3,
         peripherals.PB12,
         peripherals.PB5,
         peripherals.PB4,
+        peripherals.DMA1_CH5,
+        peripherals.DMA1_CH2,
         disp_spi_config
     );
 

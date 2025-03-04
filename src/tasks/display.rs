@@ -6,7 +6,7 @@ use embassy_sync::channel::Receiver;
 use embassy_sync::blocking_mutex::raw::NoopRawMutex;
 use embassy_stm32::gpio::Output;
 use embassy_stm32::spi::Spi;
-use embassy_stm32::mode::Blocking;
+use embassy_stm32::mode::Async;
 use embedded_graphics::{
     prelude::*,
     pixelcolor::{Rgb565},
@@ -19,7 +19,7 @@ use crate::JoystickData;
 
 #[embassy_executor::task]
 pub async fn display_controller_task(
-    spi: Spi<'static, Blocking>, 
+    spi: Spi<'static, Async>, 
     cs: Output<'static>,
     dc: Output<'static>,
     rst: Output<'static>,
@@ -43,7 +43,7 @@ pub async fn display_controller_task(
 
     loop {
         let data = joystick_rx.receive().await;
-        let mut fdata = [Rgb565::RED; 160 * 10];
+        let mut fdata = [Rgb565::BLACK; 160 * 10];
         let mut fbuf = FrameBuf::new(&mut fdata, 160, 10);
         let mut data_str = String::<32>::new();
         let _ = write!(data_str, "data {} {} {} {}", data.x1, data.y1, data.x2, data.y2);
@@ -52,7 +52,6 @@ pub async fn display_controller_task(
         let area = Rectangle::new(Point::new(0, 0), fbuf.size());
         display_device.fill_contiguous(&area, fdata).unwrap();
         info!("Display: data {} {} {} {}.", data.x1, data.y1, data.x2, data.y2);
-        //display_device.clear(Rgb565::BLACK).unwrap();
     }
 }
 
