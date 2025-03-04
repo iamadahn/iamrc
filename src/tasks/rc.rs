@@ -4,7 +4,6 @@ use embassy_sync::blocking_mutex::raw::NoopRawMutex;
 use embassy_stm32::gpio::Output;
 use embassy_stm32::spi::Spi;
 use embassy_stm32::mode::Blocking;
-use embassy_time::Timer;
 use embedded_nrf24l01::*;
 use crate::InputData;
 
@@ -21,12 +20,8 @@ pub async fn rc_controller_task(
     nrf.set_frequency(8).unwrap();
     nrf.set_auto_retransmit(15, 15).unwrap();
     nrf.set_rf(&DataRate::R2Mbps, 0).unwrap();
-    nrf
-        .set_pipes_rx_enable(&[true, false, false, false, false, false])
-        .unwrap();
-    nrf
-        .set_auto_ack(&[true, false, false, false, false, false])
-        .unwrap();
+    nrf.set_pipes_rx_enable(&[true, false, false, false, false, false]).unwrap();
+    nrf.set_auto_ack(&[true, false, false, false, false, false]).unwrap();
     nrf.set_pipes_rx_lengths(&[None; 6]).unwrap();
     nrf.set_crc(CrcMode::TwoBytes).unwrap();
     nrf.set_rx_addr(0, &b"fnord"[..]).unwrap();
