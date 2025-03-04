@@ -96,14 +96,15 @@ async fn main(spawner: Spawner) -> ! {
     let adc_ch3 = peripherals.PA3.degrade_adc();
 
     let joystick_ch: &'static mut _ = JOYSTICK_CHANNEL.init(Channel::new());
-    let joytstick_rx = joystick_ch.receiver();
-    let joytstick_tx = joystick_ch.sender();
+    let joy_tx = joystick_ch.sender();
+    let disp_joy_rx = joystick_ch.receiver();
+    let nrf_joy_rx = joystick_ch.receiver();
 
     info!("Spawning tasks.");
     spawner.spawn(led_controller(led)).ok();
-    spawner.spawn(rc_controller(nrf_spi, nrf_ce, nrf_cns)).ok();
-    spawner.spawn(joystick_controller(adc, adc_ch0, adc_ch1, adc_ch2, adc_ch3, joytstick_tx)).ok();
-    spawner.spawn(display_controller(disp_spi, disp_cs, disp_dc, disp_rst, disp_bl, joytstick_rx)).ok();
+    spawner.spawn(joystick_controller(adc, adc_ch0, adc_ch1, adc_ch2, adc_ch3, joy_tx)).ok();
+    spawner.spawn(rc_controller(nrf_spi, nrf_ce, nrf_cns, nrf_joy_rx)).ok();
+    spawner.spawn(display_controller(disp_spi, disp_cs, disp_dc, disp_rst, disp_bl, disp_joy_rx)).ok();
 
     loop {
         Timer::after_millis(1000).await;
