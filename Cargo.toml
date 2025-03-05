@@ -31,5 +31,6 @@ embedded-graphics-framebuf = "0.5.0"
 opt-level = "s"
 
 [profile.release]
+opt-level = "s"
 debug = 2
 
