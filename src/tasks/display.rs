@@ -28,6 +28,22 @@ const SCR_HEIGHT: u32 = 128;
 const BACKGROUND_COLOR: Rgb565 = Rgb565::new(0xFF, 0x18, 0x00);
 const FONT_COLOR: Rgb565 = Rgb565::BLACK;
 
+const LOGO: &str = r#"
+ _____          __  __ _____   _____  
+|_   _|   /\   |  \/  |  __ \ / ____| 
+  | |    /  \  | \  / | |__) | |      
+  | |   / /\ \ | |\/| |  _  /| |      
+ _| |_ / ____ \| |  | | | \ \| |____  
+|_____/_/    \_\_|  |_|_|  \_\\_____| 
+"#;
+
+const CAR: &str = r#"
+    _-_-  _/\______\\__
+ _-_-__  / ,-. -|-  ,-.`-.
+    _-_- `( o )----( o )-'
+           `-'      `-'
+"#;
+
 #[embassy_executor::task]
 pub async fn display_controller_task(
     spi: Spi<'static, Async>, 
@@ -73,8 +89,11 @@ pub async fn display_controller_task(
         .draw(&mut display_device)
         .unwrap();
     
-    let style = MonoTextStyle::new(&ascii::FONT_10X20, FONT_COLOR);
-    Text::new("IAMRC", Point::new(7, 20), style).draw(&mut display_device).unwrap();
+    let style = MonoTextStyle::new(&ascii::FONT_4X6, FONT_COLOR);
+    Text::new(LOGO, Point::new(7, 2), style).draw(&mut display_device).unwrap();
+
+    let style = MonoTextStyle::new(&ascii::FONT_4X6, FONT_COLOR);
+    Text::new(CAR, Point::new(20, 41), style).draw(&mut display_device).unwrap();
 
     let style = MonoTextStyle::new(&ascii::FONT_6X13, FONT_COLOR);
     Text::new("Left stick", Point::new(7, 78), style).draw(&mut display_device).unwrap();
