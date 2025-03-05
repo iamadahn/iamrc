@@ -10,12 +10,23 @@ use embassy_stm32::mode::Async;
 use embedded_graphics::{
     prelude::*,
     pixelcolor::{Rgb565},
-    primitives::Rectangle,
+    primitives::{
+        Rectangle,
+        Line,
+        PrimitiveStyle,
+        PrimitiveStyleBuilder,
+    },
     text::Text,
-    mono_font::{ascii::FONT_6X10, MonoTextStyle},
+    mono_font::{ascii, MonoTextStyle},
+    draw_target::DrawTarget,
 };
 use embedded_graphics_framebuf::FrameBuf;
 use crate::InputData;
+
+const SCR_WIDTH: u32 = 160;
+const SCR_HEIGHT: u32 = 128;
+const BACKGROUND_COLOR: Rgb565 = Rgb565::new(0xFF, 0x18, 0x00);
+const FONT_COLOR: Rgb565 = Rgb565::BLACK;
 
 #[embassy_executor::task]
 pub async fn display_controller_task(
@@ -33,24 +44,106 @@ pub async fn display_controller_task(
         rst,
         true,
         false,
-        160,
-        128
+        SCR_WIDTH + 2,
+        SCR_HEIGHT + 2
     );
 
     display_device.init(&mut Delay).unwrap();
     display_device.set_orientation(&st7735_lcd::Orientation::Landscape).unwrap();
-    display_device.clear(Rgb565::BLACK).unwrap();
+    display_device.clear(BACKGROUND_COLOR).unwrap();
+
+    let style = PrimitiveStyleBuilder::new()
+        .stroke_color(FONT_COLOR)
+        .stroke_width(2)
+        .fill_color(BACKGROUND_COLOR)
+        .build();
+
+    Rectangle::new(Point::new(4, 5), Size::new(SCR_WIDTH - 6, SCR_HEIGHT - 6))
+        .into_styled(style)
+        .draw(&mut display_device)
+        .unwrap();
+
+    Line::new(Point::new(5, 67), Point::new(156, 67))
+        .into_styled(PrimitiveStyle::with_stroke(FONT_COLOR, 2))
+        .draw(&mut display_device)
+        .unwrap();
+    
+    Line::new(Point::new(80, 67), Point::new(80, 126))
+        .into_styled(PrimitiveStyle::with_stroke(FONT_COLOR, 2))
+        .draw(&mut display_device)
+        .unwrap();
+    
+    let style = MonoTextStyle::new(&ascii::FONT_10X20, FONT_COLOR);
+    Text::new("IAMRC", Point::new(7, 20), style).draw(&mut display_device).unwrap();
+
+    let style = MonoTextStyle::new(&ascii::FONT_6X13, FONT_COLOR);
+    Text::new("Left stick", Point::new(7, 78), style).draw(&mut display_device).unwrap();
+
+    let style = MonoTextStyle::new(&ascii::FONT_6X13, FONT_COLOR);
+    Text::new("Right stick", Point::new(84, 78), style).draw(&mut display_device).unwrap();
+
+    Line::new(Point::new(5, 81), Point::new(156, 81))
+        .into_styled(PrimitiveStyle::with_stroke(FONT_COLOR, 1))
+        .draw(&mut display_device)
+        .unwrap();
+
+    let style = MonoTextStyle::new(&ascii::FONT_9X15, FONT_COLOR);
+    Text::new("X:", Point::new(6, 93), style).draw(&mut display_device).unwrap();
+
+    let style = MonoTextStyle::new(&ascii::FONT_9X15, FONT_COLOR);
+    Text::new("Y:", Point::new(6, 107), style).draw(&mut display_device).unwrap();
+
+    let style = MonoTextStyle::new(&ascii::FONT_9X15, FONT_COLOR);
+    Text::new("SW:", Point::new(6, 121), style).draw(&mut display_device).unwrap();
+
+    let style = MonoTextStyle::new(&ascii::FONT_9X15, FONT_COLOR);
+    Text::new("X:", Point::new(83, 93), style).draw(&mut display_device).unwrap();
+    
+    let style = MonoTextStyle::new(&ascii::FONT_9X15, FONT_COLOR);
+    Text::new("Y:", Point::new(83, 107), style).draw(&mut display_device).unwrap();
+
+    let style = MonoTextStyle::new(&ascii::FONT_9X15, FONT_COLOR);
+    Text::new("SW:", Point::new(83, 121), style).draw(&mut display_device).unwrap();
 
     loop {
         let data = input_sub.next_message_pure().await;
-        let mut fdata = [Rgb565::BLACK; 160 * 10];
-        let mut fbuf = FrameBuf::new(&mut fdata, 160, 10);
+
+        let mut fdata = [BACKGROUND_COLOR; 45 * 10];
+        let mut fbuf = FrameBuf::new(&mut fdata, 45, 10);
         let mut data_str = String::<32>::new();
-        let _ = write!(data_str, "data {} {} {} {}", data.x1, data.y1, data.x2, data.y2);
-        let style = MonoTextStyle::new(&FONT_6X10, Rgb565::WHITE);
+        let _ = write!(data_str, "{}", data.x1);
+        let style = MonoTextStyle::new(&ascii::FONT_9X15, FONT_COLOR);
         Text::new(&data_str, Point::new(1, 9), style).draw(&mut fbuf).unwrap();
-        let area = Rectangle::new(Point::new(0, 0), fbuf.size());
+        let area = Rectangle::new(Point::new(24, 84), fbuf.size());
         display_device.fill_contiguous(&area, fdata).unwrap();
+
+        let mut fdata = [BACKGROUND_COLOR; 45 * 10];
+        let mut fbuf = FrameBuf::new(&mut fdata, 45, 10);
+        let mut data_str = String::<32>::new();
+        let _ = write!(data_str, "{}", data.y1);
+        let style = MonoTextStyle::new(&ascii::FONT_9X15, FONT_COLOR);
+        Text::new(&data_str, Point::new(1, 9), style).draw(&mut fbuf).unwrap();
+        let area = Rectangle::new(Point::new(24, 98), fbuf.size());
+        display_device.fill_contiguous(&area, fdata).unwrap();
+
+        let mut fdata = [BACKGROUND_COLOR; 45 * 10];
+        let mut fbuf = FrameBuf::new(&mut fdata, 45, 10);
+        let mut data_str = String::<32>::new();
+        let _ = write!(data_str, "{}", data.x2);
+        let style = MonoTextStyle::new(&ascii::FONT_9X15, FONT_COLOR);
+        Text::new(&data_str, Point::new(1, 9), style).draw(&mut fbuf).unwrap();
+        let area = Rectangle::new(Point::new(101, 84), fbuf.size());
+        display_device.fill_contiguous(&area, fdata).unwrap();
+
+        let mut fdata = [BACKGROUND_COLOR; 45 * 10];
+        let mut fbuf = FrameBuf::new(&mut fdata, 45, 10);
+        let mut data_str = String::<32>::new();
+        let _ = write!(data_str, "{}", data.y2);
+        let style = MonoTextStyle::new(&ascii::FONT_9X15, FONT_COLOR);
+        Text::new(&data_str, Point::new(1, 9), style).draw(&mut fbuf).unwrap();
+        let area = Rectangle::new(Point::new(101, 98), fbuf.size());
+        display_device.fill_contiguous(&area, fdata).unwrap();
+
         info!("Display: data {} {} {} {}.", data.x1, data.y1, data.x2, data.y2);
     }
 }
