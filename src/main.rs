@@ -13,13 +13,14 @@ use embassy_stm32::adc::{Adc, AdcChannel};
 use embassy_stm32::spi;
 use {defmt_rtt as _, panic_probe as _};
 
+mod data_types;
+use data_types::InputData;
+
 mod tasks;
 use tasks::led::led_controller_task as led_controller;
 use tasks::rc::rc_controller_task as rc_controller;
 use tasks::input::input_controller_task as input_controller;
 use tasks::display::display_controller_task as display_controller;
-
-use tasks::input::InputData;
 
 static INPUT_CHANNEL: StaticCell<PubSubChannel<NoopRawMutex, InputData, 1, 2, 1>> = StaticCell::new();
 

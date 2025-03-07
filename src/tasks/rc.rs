@@ -5,9 +5,9 @@ use embassy_stm32::gpio::Output;
 use embassy_stm32::spi::Spi;
 use embassy_stm32::mode::Blocking;
 use embedded_nrf24l01::*;
-use crate::InputData;
+use crate::data_types::InputData;
 
-const PAYLOAD_LENGTH: usize = 14;
+const PAYLOAD_LENGTH: usize = 10;
 
 #[embassy_executor::task]
 pub async fn rc_controller_task(
@@ -46,14 +46,10 @@ fn payload_construct(input: InputData) -> [u8; PAYLOAD_LENGTH] {
     bytes[1] = 0xAD;
     bytes[2] = 0xBA;
     bytes[3] = 0xBE;
-    let mut buf = input.x1.to_be_bytes();
-    bytes[4..6].clone_from_slice(&buf);
-    buf = input.y1.to_be_bytes();
-    bytes[6..8].clone_from_slice(&buf);
-    buf = input.x2.to_be_bytes();
-    bytes[8..10].clone_from_slice(&buf);
-    buf = input.y2.to_be_bytes();
-    bytes[10..12].clone_from_slice(&buf);
+    bytes[4] = input.x1;
+    bytes[5] = input.y1;
+    bytes[6] = input.x2;
+    bytes[7] = input.y2;
     checksum_add(&mut bytes);
     bytes
 }

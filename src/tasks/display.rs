@@ -21,7 +21,7 @@ use embedded_graphics::{
     draw_target::DrawTarget,
 };
 use embedded_graphics_framebuf::FrameBuf;
-use crate::InputData;
+use crate::data_types::InputData;
 
 const SCR_WIDTH: u32 = 160;
 const SCR_HEIGHT: u32 = 128;
