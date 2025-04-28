@@ -21,15 +21,13 @@ pub async fn input_controller_task(
     input_pub: Publisher<'static, NoopRawMutex, InputData, 1, 2, 1>) {
     info!("Starting input controller task");
     loop {
-        /* Turns out KY-023 joysticks have 1.0V in the middle position,
-         * 0.0V at one end and 5.0V at another, so it need a lof of tweaking
-         */
         let input = InputData {
             x1: adc.blocking_read(&mut ch0).to_pct(BITS12),
             y1: adc.blocking_read(&mut ch1).to_pct(BITS12),
             x2: adc.blocking_read(&mut ch2).to_pct(BITS12),
             y2: adc.blocking_read(&mut ch3).to_pct(BITS12),
         };
+        input.x1 = input.x1.to_pct(BITS12);
         input_pub.publish(input).await;
         Timer::after_millis(100).await;
     }
