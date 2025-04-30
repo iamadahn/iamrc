@@ -27,7 +27,6 @@ pub async fn input_controller_task(
             x2: adc.blocking_read(&mut ch2).to_pct(BITS12),
             y2: adc.blocking_read(&mut ch3).to_pct(BITS12),
         };
-        input.x1 = input.x1.to_pct(BITS12);
         input_pub.publish(input).await;
         Timer::after_millis(100).await;
     }
