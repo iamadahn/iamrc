@@ -28,6 +28,27 @@ const SCR_HEIGHT: u32 = 160;
 const BACKGROUND_COLOR: Rgb565 = Rgb565::new(0xFF, 0x18, 0x00);
 const FONT_COLOR: Rgb565 = Rgb565::BLACK;
 
+const LOGO: &str = r#"
+   _______   __  ______  _____
+  /  _/ _ | /  |/  / _ \/ ___/
+ _/ // __ |/ /|_/ / , _/ /__
+/___/_/ |_/_/  /_/_/|_|\___/
+"#;
+
+const CAR: &str = r#"
+       ___-------___
+      / _---------_ \
+     / /           \ \
+     | |           | |
+  ___|_|___________|_|___
+ /-\|                 |/-\
+| _ |\       0       /| _ |
+|(_)| \      !      / |(_)|
+|___|__\_____!_____/__|___|
+[_________|IAMRC|_________]
+ ||||    ~~~~~~~~~    ||||
+"#;
+
 #[embassy_executor::task]
 pub async fn display_controller_task(
     spi: Spi<'static, Async>, 
@@ -72,6 +93,12 @@ pub async fn display_controller_task(
         .into_styled(PrimitiveStyle::with_stroke(FONT_COLOR, 2))
         .draw(&mut display_device)
         .unwrap();
+
+    let style = MonoTextStyle::new(&ascii::FONT_4X6, FONT_COLOR);
+    Text::new(LOGO, Point::new(7, 7), style).draw(&mut display_device).unwrap();
+
+    let style = MonoTextStyle::new(&ascii::FONT_4X6, FONT_COLOR);
+    Text::new(CAR, Point::new(12, 35), style).draw(&mut display_device).unwrap();
 
     let style = MonoTextStyle::new(&ascii::FONT_6X13, FONT_COLOR);
     Text::new("Stick L", Point::new(8, 126), style).draw(&mut display_device).unwrap();
